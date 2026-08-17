@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 1100" preserveAspectRatio="none">
+  <defs>
+    <linearGradient id="silk1" x1="0" y1="0" x2="1" y2="0.4">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0"></stop>
+      <stop offset="0.45" stop-color="#F6EEDD" stop-opacity="0.10"></stop>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"></stop>
+    </linearGradient>
+    <linearGradient id="silk2" x1="1" y1="0" x2="0" y2="0.5">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0"></stop>
+      <stop offset="0.5" stop-color="#FFFFFF" stop-opacity="0.07"></stop>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"></stop>
+    </linearGradient>
+    <linearGradient id="hair" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0"></stop>
+      <stop offset="0.5" stop-color="#FFF4E0" stop-opacity="0.38"></stop>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"></stop>
+    </linearGradient>
+    <linearGradient id="hair2" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0"></stop>
+      <stop offset="0.55" stop-color="#FFFFFF" stop-opacity="0.22"></stop>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"></stop>
+    </linearGradient>
+  </defs>
+  <path d="M-40 250 C 300 90, 620 330, 940 220 C 1180 138, 1320 250, 1480 190 L1480 430 C 1300 512, 1120 350, 860 430 C 560 522, 300 350, -40 470 Z" fill="url(#silk1)"></path>
+  <path d="M-40 610 C 280 500, 560 730, 880 640 C 1140 566, 1320 690, 1480 620 L1480 860 C 1280 950, 1020 760, 740 850 C 460 938, 220 790, -40 880 Z" fill="url(#silk2)"></path>
+  <path d="M-40 250 C 300 90, 620 330, 940 220 C 1180 138, 1320 250, 1480 190" fill="none" stroke="url(#hair)" stroke-width="2"></path>
+  <path d="M-40 470 C 300 350, 560 522, 860 430 C 1120 350, 1300 512, 1480 430" fill="none" stroke="url(#hair2)" stroke-width="1.5"></path>
+  <path d="M-40 610 C 280 500, 560 730, 880 640 C 1140 566, 1320 690, 1480 620" fill="none" stroke="url(#hair)" stroke-width="1.5"></path>
+  <path d="M-40 880 C 220 790, 460 938, 740 850 C 1020 760, 1280 950, 1480 860" fill="none" stroke="url(#hair2)" stroke-width="1.5"></path>
+</svg>

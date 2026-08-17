@@ -1,0 +1,7 @@
+/* SaaS Moderna webfonts.
+   SUBSTITUTION: no font binaries were supplied with the source screenshots.
+   The reference material uses a neutral Swiss grotesque with a tall x-height and
+   flat terminals. Geist (Google Fonts) is the closest freely-licensed match and is
+   loaded from the Google Fonts CDN. Swap the @import below for self-hosted
+   @font-face rules once real binaries are available. */
+@import url("https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800;900&family=Geist+Mono:wght@400;500;600&display=swap");

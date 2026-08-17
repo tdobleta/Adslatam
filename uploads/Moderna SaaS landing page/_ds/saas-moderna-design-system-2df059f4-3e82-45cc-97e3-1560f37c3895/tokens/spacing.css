@@ -1,0 +1,9 @@
+:root{
+--space-0:0px;--space-1:2px;--space-2:4px;--space-3:6px;--space-4:8px;--space-5:12px;--space-6:16px;--space-7:20px;--space-8:24px;--space-9:32px;--space-10:40px;--space-11:48px;--space-12:64px;--space-13:80px;--space-14:96px;--space-15:120px;--space-16:160px;
+
+/* layout */
+--container-max:1200px;--container-narrow:720px;--container-wide:1440px;
+--gutter:24px;--section-y:120px;--section-y-compact:80px;
+--control-h-sm:28px;--control-h:36px;--control-h-lg:44px;--control-h-xl:52px;
+--panel-w:240px;--sidebar-w:220px;--topbar-h:56px;
+}
