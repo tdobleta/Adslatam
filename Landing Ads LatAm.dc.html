@@ -1162,7 +1162,7 @@ class Component extends DCLogic {
         c.addEventListener('pointerenter', () => { if (c.getAttribute('aria-pressed') !== 'true') c.style.color = 'var(--text-strong)'; });
         c.addEventListener('pointerleave', () => { if (c.getAttribute('aria-pressed') !== 'true') c.style.color = 'var(--text-subtle)'; });
       });
-      pick(chips[0]);
+      pick(chips.find(c => c.getAttribute('aria-pressed') === 'true') || chips[0]);
     });
 
     // ---- Packs: abrir la lista de nichos ----
