@@ -9,7 +9,7 @@ const NICHES = {
   pets:        'Pets'
 };
 
-const STATIC_TIERS = { 50: 9.99, 100: 17.99, 200: 29.99, 500: 59.99 };
+const STATIC_TIERS = { 25: 6.99, 50: 9.99 };
 
 const CATALOG = {};
 
