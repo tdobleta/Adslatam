@@ -28,8 +28,7 @@ for (const [slug, nicho] of Object.entries(NICHES)) {
 
 Object.assign(CATALOG, {
   static_bundle_200: { name: '200 Ads Estáticos', category: 'Ads estáticos', variant: '50 de cada nicho', price: 24.99, currency: 'USD' },
-  dropship_100:      { name: '100 Videos de Dropshipping', category: 'Videos de dropshipping', variant: 'Pack completo', price: 14.99, currency: 'USD' },
-  videoai_100:       { name: '100 Videos IA', category: 'Videos IA', variant: 'Pack completo', price: 4.99, currency: 'USD' },
+  dropship_100:      { name: '50 Videos de Dropshipping', category: 'Videos de dropshipping', variant: 'Pack completo', price: 14.99, currency: 'USD' },
   brands_50:         { name: '50 Ads de Marcas Famosas', category: 'Ads de marcas famosas', variant: 'Videos y estáticos', price: 25.00, currency: 'USD' },
   combo_top:         { name: 'Combo Top Conversión', category: 'Combos', variant: '25 estáticos + 25 videos IA', price: 9.99, currency: 'USD' },
   combo_video:       { name: 'Combo Video First', category: 'Combos', variant: '25 dropshipping + 20 de marcas', price: 19.99, currency: 'USD' },

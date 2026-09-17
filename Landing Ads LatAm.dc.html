@@ -309,7 +309,7 @@
           </div>
           <div style="display:flex; align-items:center; justify-content:space-between; gap:16px; padding-top:16px; box-shadow:inset 0 1px 0 var(--line-subtle)">
             <span style="display:flex; flex-direction:column; gap:2px">
-              <span style="font:var(--type-xs); color:var(--text-subtle)">100 videos · un solo pack</span>
+              <span style="font:var(--type-xs); color:var(--text-subtle)">50 videos · un solo pack</span>
               <span style="font:var(--type-sm); font-weight:700; color:var(--text-strong)">US$ 14.99</span>
             </span>
             <x-import component-from-global-scope="SaaSModernaDesignSystem_2df059.Button" variant="dark" size="md" shape="pill" icon-right="arrow-right" hint-size="auto,38px">Añadir al carrito</x-import>
@@ -333,28 +333,6 @@
             <span style="display:flex; flex-direction:column; gap:2px">
               <span style="font:var(--type-xs); color:var(--text-subtle)">50 piezas · videos y estáticos</span>
               <span style="font:var(--type-sm); font-weight:700; color:var(--text-strong)">US$ 25</span>
-            </span>
-            <x-import component-from-global-scope="SaaSModernaDesignSystem_2df059.Button" variant="dark" size="md" shape="pill" icon-right="arrow-right" hint-size="auto,38px">Añadir al carrito</x-import>
-          </div>
-          <div data-sello="1" style="display:flex; align-items:center; gap:8px; margin-top:-4px; padding-top:14px; box-shadow:inset 0 1px 0 var(--line-subtle); font:var(--type-xs); font-weight:600; color:var(--text-muted); letter-spacing:0.01em">
-            <span data-sello-icon="1" style="display:flex; align-items:center; justify-content:center; width:20px; height:20px; border-radius:999px; background:rgba(0,224,122,.14); color:#00A85C; transition:transform 260ms cubic-bezier(.16,1,.3,1)"><x-import component-from-global-scope="SaaSModernaDesignSystem_2df059.Icon" name="shield-check" size="12" hint-size="12px,12px"></x-import></span>
-            Calidad garantizada
-          </div>
-        </div>
-        <div data-solo="1" style="position:relative; display:flex; flex-direction:column; gap:20px; padding:24px; background:#FFFFFF; border-radius:20px; box-shadow:var(--shadow-card); transition:transform 220ms cubic-bezier(.16,1,.3,1), box-shadow 220ms cubic-bezier(.16,1,.3,1)">
-          <div data-thumb="1" style="position:relative; height:170px; border-radius:12px; overflow:hidden; background:#0B0B0E">
-            <img data-frame="1" src="assets/pack-video-ia.png" alt="Videos generados con IA por nicho" style="position:absolute; inset:-8px; width:calc(100% + 16px); height:calc(100% + 16px); object-fit:cover; object-position:50% 50%; transition:transform 620ms cubic-bezier(.16,1,.3,1)">
-            <span aria-hidden="true" style="position:absolute; inset:0; background:linear-gradient(180deg, rgba(0,0,0,.42) 0%, rgba(0,0,0,0) 50%)"></span>
-            <span data-sheen="1" aria-hidden="true" style="position:absolute; inset:0; pointer-events:none; transform:translateX(-120%); background:linear-gradient(104deg, rgba(255,255,255,0) 42%, rgba(255,255,255,.3) 50%, rgba(255,255,255,0) 58%)"></span>
-          </div>
-          <div style="display:flex; flex-direction:column; gap:8px">
-            <h3 style="margin:0; font:var(--type-h4); color:var(--text-strong); letter-spacing:var(--tracking-heading)">Videos IA</h3>
-            <p style="margin:0; font:var(--type-sm); color:var(--text-muted)">Videos hechos con IA, con el hook de los primeros 3 segundos ya resuelto. Recibís el video final más el prompt y el guion, así generás tus propias variantes.</p>
-          </div>
-          <div style="display:flex; align-items:center; justify-content:space-between; gap:16px; padding-top:16px; box-shadow:inset 0 1px 0 var(--line-subtle)">
-            <span style="display:flex; flex-direction:column; gap:2px">
-              <span style="font:var(--type-xs); color:var(--text-subtle)">100 videos · un solo pack</span>
-              <span style="font:var(--type-sm); font-weight:700; color:var(--text-strong)">US$ 4.99</span>
             </span>
             <x-import component-from-global-scope="SaaSModernaDesignSystem_2df059.Button" variant="dark" size="md" shape="pill" icon-right="arrow-right" hint-size="auto,38px">Añadir al carrito</x-import>
           </div>
@@ -1097,8 +1075,7 @@ class Component extends DCLogic {
 
     // 3) packs de compra única
     const SOLO = {
-      'Videos de dropshipping': { product_id: 'dropship_100', name: '100 Videos de Dropshipping', variant: 'Pack completo', price: 14.99 },
-      'Videos IA': { product_id: 'videoai_100', name: '100 Videos IA', variant: 'Pack completo', price: 4.99 },
+      'Videos de dropshipping': { product_id: 'dropship_100', name: '50 Videos de Dropshipping', variant: 'Pack completo', price: 14.99 },
       'Ads de marcas famosas': { product_id: 'brands_50', name: '50 Ads de Marcas Famosas', variant: 'Videos y estáticos', price: 25.00 }
     };
     document.querySelectorAll('[data-solo]').forEach(card => {
