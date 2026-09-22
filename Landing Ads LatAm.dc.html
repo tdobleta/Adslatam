@@ -282,17 +282,22 @@ body:has(.ec-hero) header a[style*="var(--text-muted)"]{color:#616982!important}
         </div>
         <div data-solo="1" style="position:relative; display:flex; flex-direction:column; gap:20px; padding:24px; background:#FFFFFF; border-radius:20px; box-shadow:var(--shadow-card); transition:transform 220ms cubic-bezier(.16,1,.3,1), box-shadow 220ms cubic-bezier(.16,1,.3,1)">
           <div data-thumb="1" style="position:relative; height:170px; border-radius:12px; overflow:hidden; background:#0B0B0E">
-            <img data-frame="1" src="assets/pack-estaticos-v5.png" alt="Ads de marcas famosas" style="position:absolute; inset:-8px; width:calc(100% + 16px); height:calc(100% + 16px); object-fit:cover; object-position:50% 50%; transition:transform 620ms cubic-bezier(.16,1,.3,1)">
-            <span aria-hidden="true" style="position:absolute; inset:0; background:linear-gradient(180deg, rgba(0,0,0,.42) 0%, rgba(0,0,0,0) 50%)"></span>
-            <span data-sheen="1" aria-hidden="true" style="position:absolute; inset:0; pointer-events:none; transform:translateX(-120%); background:linear-gradient(104deg, rgba(255,255,255,0) 42%, rgba(255,255,255,.3) 50%, rgba(255,255,255,0) 58%)"></span>
-          </div>
+  <div data-frame="1" aria-label="Referencias de Eme Studios, Voltra, Smud y Nude Project" style="position:absolute; inset:0; display:grid; grid-template-columns:repeat(4,1fr); align-items:center; gap:8px; padding:28px 18px 22px; background:radial-gradient(ellipse at 50% 55%, rgba(255,255,255,.18), rgba(255,255,255,0) 54%), linear-gradient(145deg,#08090d,#151720 58%,#0a0b10); transition:transform 620ms cubic-bezier(.16,1,.3,1)">
+    <span style="display:flex; height:84px; align-items:center; justify-content:center; border:1px solid rgba(255,255,255,.28); border-radius:9px; background:linear-gradient(145deg,#f4f2ee,#cfd1d7); color:#20232b; font:800 9px/1.1 Inter,Arial,sans-serif; text-align:center; letter-spacing:.07em; box-shadow:0 10px 18px rgba(0,0,0,.28)">EME<br><small style="font-size:7px;letter-spacing:.12em">STUDIOS</small></span>
+    <span style="display:flex; height:84px; align-items:center; justify-content:center; border:1px solid rgba(255,255,255,.25); border-radius:9px; background:linear-gradient(145deg,#f6f6f2,#d7d9df); color:#11131a; font:900 13px/1 Inter,Arial,sans-serif; text-align:center; letter-spacing:.04em; box-shadow:0 10px 18px rgba(0,0,0,.28)">V<br><small style="font-size:7px;letter-spacing:.16em">VOLTRA</small></span>
+    <span style="display:flex; height:84px; align-items:center; justify-content:center; border:1px solid rgba(255,255,255,.25); border-radius:9px; background:linear-gradient(145deg,#f7f0f7,#ddd2e5); color:#201c2b; font:800 16px/1 Georgia,serif; text-align:center; box-shadow:0 10px 18px rgba(0,0,0,.28)">smud</span>
+    <span style="display:flex; height:84px; align-items:center; justify-content:center; border:1px solid rgba(255,255,255,.25); border-radius:9px; background:linear-gradient(145deg,#f5f4f0,#cfd0d5); color:#181a20; font:900 8px/1.1 Inter,Arial,sans-serif; text-align:center; letter-spacing:.04em; box-shadow:0 10px 18px rgba(0,0,0,.28)">NUDE<br><small style="font-size:7px;letter-spacing:.14em">PROJECT</small></span>
+  </div>
+  <span aria-hidden="true" style="position:absolute; inset:0; background:linear-gradient(180deg, rgba(0,0,0,.38) 0%, rgba(0,0,0,0) 50%)"></span>
+  <span data-sheen="1" aria-hidden="true" style="position:absolute; inset:0; pointer-events:none; transform:translateX(-120%); background:linear-gradient(104deg, rgba(255,255,255,0) 42%, rgba(255,255,255,.3) 50%, rgba(255,255,255,0) 58%)"></span>
+</div>
           <div style="display:flex; flex-direction:column; gap:8px">
-            <h3 style="margin:0; font:var(--type-h4); color:var(--text-strong); letter-spacing:var(--tracking-heading)">Ads de marcas famosas</h3>
-            <p style="margin:0; font:var(--type-sm); color:var(--text-muted)">Los anuncios de las marcas más famosas que las hicieron facturar millones. Variedad de videos y estáticos, con el análisis de por qué cada uno funcionó.</p>
+            <h3 style="margin:0; font:var(--type-h4); color:var(--text-strong); letter-spacing:var(--tracking-heading)">Ads estáticos premium</h3>
+            <p style="margin:0; font:var(--type-sm); color:var(--text-muted)">Creativos premium para ropa y gadgets, inspirados en referencias visuales de Eme Studios, Voltra, Smud y Nude Project. Adaptá los ángulos, el producto y la dirección visual a tu tienda.</p>
           </div>
           <div style="display:flex; align-items:center; justify-content:space-between; gap:16px; padding-top:16px; box-shadow:inset 0 1px 0 var(--line-subtle)">
             <span style="display:flex; flex-direction:column; gap:2px">
-              <span style="font:var(--type-xs); color:var(--text-subtle)">50 piezas · videos y estáticos</span>
+              <span style="font:var(--type-xs); color:var(--text-subtle)">50 estáticos · ropa y gadgets</span>
               <span style="font:var(--type-sm); font-weight:700; color:var(--text-strong)">US$ 25</span>
             </span>
             <x-import component-from-global-scope="SaaSModernaDesignSystem_2df059.Button" variant="dark" size="md" shape="pill" icon-right="arrow-right" hint-size="auto,38px">Añadir al carrito</x-import>
@@ -1037,7 +1042,7 @@ class Component extends DCLogic {
     // 3) packs de compra única
     const SOLO = {
       'Videos de dropshipping': { product_id: 'dropship_100', name: '50 Videos de Dropshipping', variant: 'Pack completo', price: 14.99 },
-      'Ads de marcas famosas': { product_id: 'brands_50', name: '50 Ads de Marcas Famosas', variant: 'Videos y estáticos', price: 25.00 }
+      'Ads estáticos premium': { product_id: 'static_premium_50', name: '50 Ads Estáticos Premium', variant: 'Ropa y gadgets', price: 25.00 }
     };
     document.querySelectorAll('[data-solo]').forEach(card => {
       const h = card.querySelector('h3');
