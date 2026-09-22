@@ -838,6 +838,8 @@ class Component extends DCLogic {
       remove(id) { this.items = this.items.filter(i => i.product_id !== id); this.save(); },
       total() { return round2(this.items.reduce((s, i) => s + Number(i.price || 0), 0)); }
     });
+    const money = n => 'US$ ' + Number(n).toFixed(2);
+
     const drawer = document.querySelector('[data-cart-drawer]');
     const scrim = document.querySelector('[data-cart-scrim]');
     const listEl = document.querySelector('[data-cart-items]');
