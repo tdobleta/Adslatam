@@ -43,6 +43,16 @@
 .ec-theme-note{color:#8f98a5!important;font-size:10px!important}
 @media (max-width:660px){[data-products-layout="1"]{grid-template-columns:1fr!important}.ec-theme-heading h3{font-size:27px!important}}
 </style>
+<style>
+:root{--brand-teal:#0F4142;--brand-teal-ink:#12383A;--brand-coral:#C96545;--brand-coral-soft:#E7B6A1;--brand-ivory:#F7F5F0;--font-sans:Inter,"Avenir Next",ui-sans-serif,system-ui,sans-serif;--accent:#C96545;--text-strong:#12383A;--text-body:#274B4C;--text-muted:#607270;--text-subtle:#899794;--surface-hover:#EEF2EF;--line-subtle:#D8E3DF;--gradient-brand-flat:linear-gradient(135deg,#0F4142,#C96545)}
+html{background:#F7F5F0!important}body{background:#F7F5F0!important;color:#274B4C!important;font-family:var(--font-sans)!important}body>div{background:#F7F5F0!important}
+.ecl-brand{display:inline-flex!important;align-items:center!important;gap:10px!important;color:#0F4142!important;text-decoration:none!important;line-height:1!important}.ecl-brand-mark{display:block;width:29px;height:29px;flex:none}.ecl-brand-name{color:#0F4142;font:600 20px/1 var(--font-sans);letter-spacing:-.065em}.ecl-brand:hover .ecl-brand-name{color:#C96545}
+body:has(.ec-hero) header{background:rgba(247,245,240,.9)!important;border-bottom:1px solid #D8E3DF!important;box-shadow:0 1px 0 rgba(15,65,66,.03)!important;color:#12383A!important}body:has(.ec-hero) header a,body:has(.ec-hero) header button{color:#12383A!important}body:has(.ec-hero) header a[style*="var(--text-muted)"]{color:#607270!important}body:has(.ec-hero) header a[href="#coleccion"] button{background:#C96545!important;color:#fff!important;box-shadow:none!important;border-radius:8px!important}
+.ec-hero{background:#F7F5F0!important;color:#12383A!important}.ec-hero:before{background:radial-gradient(circle at 81% 37%,rgba(201,101,69,.12),transparent 32%),radial-gradient(circle at 18% 57%,rgba(15,65,66,.1),transparent 36%),#F7F5F0!important}.ec-hero:after{background:radial-gradient(ellipse,rgba(201,101,69,.1),transparent 66%)!important}.ec-kicker{color:#52706E!important}.ec-kicker:before{background:#C96545!important}.ec-title{color:#12383A!important}.ec-title em{color:#C96545!important}.ec-description{color:#4F6B6A!important}.ec-description b{color:#12383A!important}.ec-primary{background:#0F4142!important;color:#F7F5F0!important;box-shadow:0 12px 24px rgba(15,65,66,.18)!important;border-radius:8px!important}.ec-secondary{border-color:#AFC3BE!important;color:#0F4142!important;background:transparent!important;border-radius:8px!important}.ec-disclaimer{color:#7A8A87!important}
+.ec-halo{background:radial-gradient(circle,rgba(255,255,255,.8),rgba(214,229,224,.42) 55%,transparent 70%)!important}.ec-window{background:#FBFAF6!important;border-color:rgba(15,65,66,.18)!important;box-shadow:0 28px 70px rgba(15,65,66,.12)!important}.ec-window-body{background:#EEF3EF!important}.ec-preview{background:#FFFCF6!important;border-color:rgba(15,65,66,.15)!important}.ec-float{box-shadow:0 20px 40px rgba(15,65,66,.12)!important}.ec-float-tag{background:#C96545!important;color:#fff!important}
+#packs{background:#0E3F40!important}.ec-logos{border-top-color:rgba(247,245,240,.22)!important;color:#A8BBB7!important}.ec-logo{color:#D4DFDA!important}.ec-logo-ecomlatam .ec-logo-mark{background:#C96545!important;border-color:#C96545!important}.ec-logo-ecomlatam .ec-logo-word{color:#F7F5F0!important}
+.ec-themes-card{background:#123B3C!important;border-color:rgba(247,245,240,.16)!important;box-shadow:0 18px 44px rgba(0,0,0,.16),inset 0 0 0 1px rgba(247,245,240,.03)!important}.ec-themes-card:before{display:none!important}.ec-theme-kicker{color:#E2A088!important}.ec-theme-heading h3{color:#F7F5F0!important}.ec-theme-count{color:#B7C8C3!important}.ec-theme-copy{color:#B4C5C0!important}.ec-theme-showcase{background:#173F40!important;border-color:rgba(247,245,240,.15)!important}.ec-theme-showcase-head{color:#9FB4AE!important}.ec-theme-showcase-head strong{color:#F7F5F0!important}.ec-theme-platform{background:rgba(247,245,240,.06)!important;border-color:rgba(247,245,240,.18)!important;color:#F7F5F0!important}.ec-theme-platform span{color:#B4C5C0!important}.ec-theme-platform:not(.ec-theme-platform-disabled):hover{background:rgba(201,101,69,.18)!important;border-color:#C96545!important}.ec-theme-item{background:rgba(247,245,240,.045)!important;border-color:rgba(247,245,240,.14)!important}.ec-theme-item-copy strong{color:#F7F5F0!important}.ec-theme-item-copy p{color:#AFC1BC!important}.ec-theme-item .ec-theme-platform{background:transparent!important;border-color:rgba(247,245,240,.18)!important}.ec-theme-note{color:#9FB4AE!important}
+</style>
 </head>
 <body>
 <x-dc>
@@ -58,7 +68,7 @@
 <link rel="stylesheet" href="_ds/saas-moderna-design-system-2df059f4-3e82-45cc-97e3-1560f37c3895/styles.css">
 <script src="_ds/saas-moderna-design-system-2df059f4-3e82-45cc-97e3-1560f37c3895/_ds_bundle.js"></script>
 <style>
-  body { margin:0; background:#F2F0ED; }
+  body { margin:0; background:#F7F5F0; }
   a { color: var(--text-link); text-decoration: none; }
   a:hover { color: var(--text-link-hover); }
   summary::-webkit-details-marker { display:none; }
@@ -77,13 +87,11 @@
 </style>
 </helmet>
 
-<div style="font-family:var(--font-sans); color:var(--text-body); background:#F2F0ED; overflow-x:hidden">
+<div style="font-family:var(--font-sans); color:var(--text-body); background:#F7F5F0; overflow-x:hidden">
 
   <header style="position:sticky; top:0; z-index:50; background:linear-gradient(90deg, rgba(0,153,255,.07) 0%, rgba(122,92,255,.06) 50%, rgba(201,58,245,.07) 100%), rgba(255,255,255,.84); backdrop-filter:saturate(180%) blur(20px); box-shadow:inset 0 -1px 0 var(--line-subtle)">
     <nav style="max-width:1200px; margin:0 auto; padding:0 24px; height:64px; display:flex; align-items:center; gap:32px">
-      <a href="#top" style="display:flex; align-items:baseline; gap:2px; font-size:18px; letter-spacing:-0.03em; color:var(--text-strong)">
-        <span style="font-weight:900; color:var(--accent)">Ecom</span><span style="font-weight:400">Latam</span>
-      </a>
+      <a class="ecl-brand" href="#top" aria-label="Ecomlatam, inicio"><svg class="ecl-brand-mark" viewBox="0 0 100 100" aria-hidden="true" focusable="false"><path fill="#0F4142" d="M4 50C27 42 43 29 54 13c6-9 8-15 8-15-29 13-48 31-58 52 10 21 29 39 58 52 0 0-2-6-8-15C43 71 27 58 4 50Z"></path><path fill="#C96545" d="M96 50C73 58 57 71 46 87c-6 9-8 15-8 15 29-13 48-31 58-52-10-21-29-39-58-52 0 0 2 6 8 15C57 29 73 42 96 50Z"></path></svg><span class="ecl-brand-name">Ecomlatam</span></a>
       <div style="display:flex; align-items:center; gap:24px; margin-left:8px; font:var(--type-sm); letter-spacing:-0.01em">
         <a href="#packs" style="color:var(--text-muted); transition:color 140ms ease" style-hover="color:var(--accent)">Packs</a>
         <a href="#verticales" style="color:var(--text-muted); transition:color 140ms ease" style-hover="color:var(--accent)">Verticales</a>
@@ -152,19 +160,19 @@ body:has(.ec-hero) header a[style*="var(--text-muted)"]{color:#616982!important}
 <div class="ec-shell">
   <div class="ec-main">
     <div class="ec-copy">
-      <div class="ec-kicker">EcomLatam / comercio digital</div>
+      <div class="ec-kicker">Ecomlatam / comercio digital</div>
       <h1 class="ec-title"><strong>US$215 mil millones</strong><em>en ecommerce de Latinoamérica.</em></h1>
-      <p class="ec-description"><b>La oportunidad ya existe.</b> EcomLatam te da la base para entrar con orden: themes profesionales para Shopify y Tiendanube, una guía práctica de Dropi y recursos listos para construir tu operación.</p>
+      <p class="ec-description"><b>La oportunidad ya existe.</b> Ecomlatam te da la base para entrar con orden: themes profesionales para Shopify y Tiendanube, una guía práctica de Dropi y recursos listos para construir tu operación.</p>
       <div class="ec-actions"><a class="ec-primary" href="#packs">Explorar recursos</a><a class="ec-secondary" href="#como-funciona">Cómo empezar</a></div>
       <p class="ec-disclaimer">Proyección 2026 de ventas minoristas online en Latinoamérica. Empezá sin comprar inventario por adelantado y adaptá cada recurso a tu tienda.</p>
     </div>
-    <div class="ec-visual" aria-label="Ecosistema EcomLatam para tiendas online">
+    <div class="ec-visual" aria-label="Ecosistema Ecomlatam para tiendas online">
       <div class="ec-halo"></div>
       <div class="ec-window">
         <div class="ec-window-bar"><i class="ec-dot"></i><i class="ec-dot"></i><i class="ec-dot"></i><span>ecomlatam / commerce system</span></div>
         <div class="ec-window-body">
           <div class="ec-window-label"><b>Tu tienda, ordenada para crecer</b><span>01 — 03</span></div>
-          <div class="ec-preview"><img src="assets/pack-estaticos-v6.png" alt="Recursos de anuncios y ecommerce EcomLatam"></div>
+          <div class="ec-preview"><img src="assets/pack-estaticos-v6.png" alt="Recursos de anuncios y ecommerce Ecomlatam"></div>
           <div class="ec-floating ec-float-one"><div class="ec-float-tag">Storefront</div><div class="ec-float-value">Shopify + Tiendanube</div><div class="ec-float-note">themes listos para personalizar</div><div class="ec-bar"><i style="width:92%"></i></div></div>
           <div class="ec-floating ec-float-two"><div class="ec-float-tag">Dropi</div><div class="ec-float-value">Miles de proveedores</div><div class="ec-float-note">logística integrada en LatAm</div><div class="ec-bar"><i style="width:78%"></i></div></div>
           <div class="ec-floating ec-float-three"><div class="ec-float-tag">Creative library</div><div class="ec-float-value">Ads listos</div><div class="ec-float-note">estáticos, video y orgánico</div></div>
@@ -173,7 +181,7 @@ body:has(.ec-hero) header a[style*="var(--text-muted)"]{color:#616982!important}
       </div>
     </div>
   </div>
-  <div class="ec-logos" aria-label="Plataformas y canales del ecosistema EcomLatam"><div class="ec-logos-caption">La infraestructura que usan las tiendas online para empezar y crecer.</div><div class="ec-logo-viewport" data-logo-viewport tabindex="0"><div class="ec-logo-track" data-logo-track><div class="ec-logo-set" data-logo-set><div class="ec-logo ec-logo-dropi"><img src="https://cdn.prod.website-files.com/6a85fd3e9f4ce058176ddee0/6a85fd3e9f4ce058176ddef0_Logo-dropi-Horizontal.svg" alt="Dropi" loading="eager" decoding="async"></div><div class="ec-logo"><img src="https://cdn.simpleicons.org/shopify/697079" alt="Shopify" loading="eager" decoding="async"><span class="ec-logo-word">Shopify</span></div><div class="ec-logo"><img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Logo_de_Tiendanube.svg" alt="Tiendanube" loading="eager" decoding="async"><span class="ec-logo-word">tiendanube</span></div><div class="ec-logo ec-logo-ecomlatam"><span class="ec-logo-mark">e</span><span class="ec-logo-word">EcomLatam</span></div><div class="ec-logo"><img src="https://cdn.simpleicons.org/youtube/697079" alt="YouTube" loading="eager" decoding="async"><span class="ec-logo-word">YouTube</span></div><div class="ec-logo"><img src="https://cdn.simpleicons.org/tiktok/697079" alt="TikTok" loading="eager" decoding="async"><span class="ec-logo-word">TikTok</span></div></div></div></div></div>
+  <div class="ec-logos" aria-label="Plataformas y canales del ecosistema Ecomlatam"><div class="ec-logos-caption">La infraestructura que usan las tiendas online para empezar y crecer.</div><div class="ec-logo-viewport" data-logo-viewport tabindex="0"><div class="ec-logo-track" data-logo-track><div class="ec-logo-set" data-logo-set><div class="ec-logo ec-logo-dropi"><img src="https://cdn.prod.website-files.com/6a85fd3e9f4ce058176ddee0/6a85fd3e9f4ce058176ddef0_Logo-dropi-Horizontal.svg" alt="Dropi" loading="eager" decoding="async"></div><div class="ec-logo"><img src="https://cdn.simpleicons.org/shopify/697079" alt="Shopify" loading="eager" decoding="async"><span class="ec-logo-word">Shopify</span></div><div class="ec-logo"><img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Logo_de_Tiendanube.svg" alt="Tiendanube" loading="eager" decoding="async"><span class="ec-logo-word">tiendanube</span></div><div class="ec-logo ec-logo-ecomlatam"><span class="ec-logo-mark">e</span><span class="ec-logo-word">Ecomlatam</span></div><div class="ec-logo"><img src="https://cdn.simpleicons.org/youtube/697079" alt="YouTube" loading="eager" decoding="async"><span class="ec-logo-word">YouTube</span></div><div class="ec-logo"><img src="https://cdn.simpleicons.org/tiktok/697079" alt="TikTok" loading="eager" decoding="async"><span class="ec-logo-word">TikTok</span></div></div></div></div></div>
 </div>
 </section><section id="packs" style="position:relative; overflow:hidden; padding:0 24px 96px; background:radial-gradient(120% 80% at 50% -10%, #1A1A1F 0%, #0B0B0E 58%, #08080A 100%)">
     <div style="position:relative; max-width:1200px; margin:0 auto; padding:72px 0 0">
@@ -302,7 +310,7 @@ body:has(.ec-hero) header a[style*="var(--text-muted)"]{color:#616982!important}
     </div>
   </section>
 
-  <section id="verticales" style="padding:64px 24px 120px; background:#F2F0ED">
+  <section id="verticales" style="padding:64px 24px 120px; background:#F7F5F0">
     <div style="max-width:1200px; margin:0 auto">
       <x-import component-from-global-scope="SaaSModernaDesignSystem_2df059.SectionHeading" eyebrow="POR INDUSTRIA" title="Packs por vertical" body="Los mismos patrones, ajustados al lenguaje y la oferta de cada rubro." align="center" max-width="640" hint-size="100%,180px"></x-import>
       <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:16px; margin-top:48px">
@@ -357,7 +365,7 @@ body:has(.ec-hero) header a[style*="var(--text-muted)"]{color:#616982!important}
     </div>
   </section>
 
-  <section id="como-funciona" style="padding:120px 24px; background:#F2F0ED">
+  <section id="como-funciona" style="padding:120px 24px; background:#F7F5F0">
     <div style="max-width:1200px; margin:0 auto">
       <x-import component-from-global-scope="SaaSModernaDesignSystem_2df059.SectionHeading" eyebrow="CÓMO FUNCIONA" title="Tres pasos y estás testeando" align="center" max-width="640" hint-size="100%,140px"></x-import>
       <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:24px; margin-top:56px">
@@ -409,7 +417,7 @@ body:has(.ec-hero) header a[style*="var(--text-muted)"]{color:#616982!important}
     </div>
   </section>
 
-  <section id="faq" style="padding:120px 24px; background:#F2F0ED">
+  <section id="faq" style="padding:120px 24px; background:#F7F5F0">
     <div style="max-width:820px; margin:0 auto">
       <x-import component-from-global-scope="SaaSModernaDesignSystem_2df059.SectionHeading" eyebrow="FAQ" title="Preguntas frecuentes" align="center" max-width="640" hint-size="100%,140px"></x-import>
       <div style="display:flex; flex-direction:column; gap:0; margin-top:48px">
@@ -490,7 +498,7 @@ body:has(.ec-hero) header a[style*="var(--text-muted)"]{color:#616982!important}
       </div>
     </div>
     <div style="max-width:1200px; margin:56px auto 0; padding-top:24px; box-shadow:inset 0 1px 0 var(--line-inverse); display:flex; flex-wrap:wrap; gap:12px; justify-content:space-between; font:var(--type-xs); color:var(--text-subtle)">
-      <span>© 2026 EcomLatam. Todos los derechos reservados.</span>
+      <span>© 2026 Ecomlatam. Todos los derechos reservados.</span>
       <span>Hecho para marketers de Latinoamérica.</span>
     </div>
   </footer>
