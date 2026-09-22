@@ -27,13 +27,10 @@ for (const [slug, nicho] of Object.entries(NICHES)) {
 }
 
 Object.assign(CATALOG, {
-  static_bundle_200: { name: '200 Ads Estáticos', category: 'Ads estáticos', variant: '50 de cada nicho', price: 24.99, currency: 'USD' },
-  dropship_100:      { name: '50 Videos de Dropshipping', category: 'Videos de dropshipping', variant: 'Pack completo', price: 14.99, currency: 'USD' },
-  brands_50:         { name: '50 Ads de Marcas Famosas', category: 'Ads de marcas famosas', variant: 'Videos y estáticos', price: 25.00, currency: 'USD' },
-  combo_top:         { name: 'Combo Top Conversión', category: 'Combos', variant: '25 estáticos + 25 videos IA', price: 9.99, currency: 'USD' },
-  combo_video:       { name: 'Combo Video First', category: 'Combos', variant: '25 dropshipping + 20 de marcas', price: 19.99, currency: 'USD' },
-  combo_start:       { name: 'Combo Arranque', category: 'Combos', variant: '40 piezas de un nicho', price: 7.99, currency: 'USD' },
-  pack_full:         { name: 'Pack Completo', category: 'Pack completo', variant: 'Los 4 formatos', price: 49.99, currency: 'USD' }
+  static_bundle_200:          { name: '200 Ads Estáticos', category: 'Ads estáticos', variant: '50 de cada nicho', price: 24.99, currency: 'USD' },
+  dropship_100:               { name: '50 Videos de Dropshipping', category: 'Videos de dropshipping', variant: 'Pack completo', price: 14.99, currency: 'USD' },
+  static_fashion_brands_75:   { name: '75 Ads de Marcas de Moda', category: 'Ads estáticos premium', variant: 'Eme Studios · Scuffers · Nude Project', price: 17.99, currency: 'USD' },
+  static_product_brands_100:  { name: '100 Ads de Gadgets y Productos', category: 'Ads estáticos premium', variant: 'Ganga Home · Voltra · Smud · Lili Pink', price: 14.99, currency: 'USD' }
 });
 
 // ---- Carpetas de Google Drive ----
@@ -66,7 +63,19 @@ function priceCart(items) {
     const p = getProduct(id);
     if (!p) continue;
     if (out.some(o => o.product_id === id)) continue; // sin duplicados
-    out.push({ product_id: id, product_name: p.name, variant: p.variant, price: p.price, currency: p.currency });
+    const discounted = out.length > 0 && raw && typeof raw === 'object' && raw.upsell === true;
+    const basePrice = p.price;
+    const finalPrice = discounted ? Math.round(basePrice * 0.35 * 100) / 100 : basePrice;
+    out.push({
+      product_id: id,
+      product_name: p.name,
+      variant: p.variant,
+      price: finalPrice,
+      base_price: basePrice,
+      discount_percent: discounted ? 65 : 0,
+      upsell: discounted,
+      currency: p.currency
+    });
   }
   const total = Math.round(out.reduce((s, i) => s + i.price, 0) * 100) / 100;
   return { items: out, total, currency: 'USD' };
