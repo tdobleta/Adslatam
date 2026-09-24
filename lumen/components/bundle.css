@@ -1,0 +1,217 @@
+@import url("https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap");
+
+/* Lumen — component styles. Every value comes from tokens.css (var(--…)). */
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 22px;
+  background: var(--surface);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ---------- Button ---------- */
+.lm-btn {
+  font: inherit;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  border: 0;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color .2s ease, transform .12s ease, opacity .2s ease;
+}
+.lm-btn--sm { height: 28px; padding: 0 var(--space-3); font-size: 13px; line-height: 18px; }
+.lm-btn--md { height: 36px; padding: 0 var(--space-4); font-size: 15px; line-height: 22px; }
+.lm-btn--lg { height: 48px; padding: 0 var(--space-6); font-size: 17px; line-height: 22px; }
+.lm-btn--primary { background: var(--accent); color: var(--on-accent); }
+.lm-btn--primary:hover { background: var(--accent-hover); }
+.lm-btn--secondary { background: var(--fill); color: var(--ink); }
+.lm-btn--secondary:hover { background: var(--fill-hover); }
+.lm-btn--plain { background: transparent; color: var(--accent-text); padding-inline: var(--space-2); }
+.lm-btn--plain:hover { text-decoration: underline; text-underline-offset: 3px; }
+.lm-btn--destructive { background: var(--danger-soft); color: var(--danger); }
+.lm-btn--destructive:hover { background: var(--fill-hover); }
+.lm-btn:active:not(:disabled) { transform: scale(.97); }
+.lm-btn:disabled { opacity: .4; cursor: default; }
+
+/* ---------- Focus (shared) ---------- */
+.lm-btn:focus-visible,
+.lm-seg__opt:focus-visible,
+.lm-switch__track:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+/* ---------- TextField ---------- */
+.lm-field { display: flex; flex-direction: column; gap: 6px; }
+.lm-field__label { font-size: 13px; line-height: 18px; font-weight: 500; color: var(--ink); }
+.lm-field__input {
+  font: inherit;
+  height: 40px;
+  padding: 0 var(--space-3);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--line-strong);
+  background: var(--surface-raised);
+  color: var(--ink);
+  transition: border-color .2s ease, box-shadow .2s ease;
+}
+.lm-field__input::placeholder { color: var(--ink-muted); }
+.lm-field__input:focus {
+  outline: none;
+  border-color: var(--focus-ring);
+  box-shadow: 0 0 0 1px var(--focus-ring), 0 0 0 5px var(--focus-glow);
+}
+.lm-field__input:disabled { opacity: .5; }
+.lm-field__desc { margin: 0; font-size: 12px; line-height: 16px; color: var(--ink-muted); }
+.lm-field--error .lm-field__input { border-color: var(--danger); }
+.lm-field--error .lm-field__input:focus { box-shadow: 0 0 0 1px var(--danger), 0 0 0 5px var(--danger-soft); }
+.lm-field--error .lm-field__desc { color: var(--danger); }
+
+/* ---------- Switch ---------- */
+.lm-switch { display: inline-flex; align-items: center; gap: var(--space-3); cursor: pointer; font-size: 15px; line-height: 22px; }
+.lm-switch.is-disabled { opacity: .4; cursor: default; }
+.lm-switch__track {
+  position: relative;
+  flex-shrink: 0;
+  width: 44px;
+  height: 26px;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: var(--line-strong);
+  cursor: inherit;
+  transition: background-color .25s ease;
+}
+.lm-switch__track[aria-checked="true"] { background: var(--accent); }
+.lm-switch__thumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--knob);
+  box-shadow: var(--shadow-control);
+  transition: transform .28s cubic-bezier(.3, .7, .4, 1);
+}
+.lm-switch__track[aria-checked="true"] .lm-switch__thumb { transform: translateX(18px); }
+
+/* ---------- SegmentedControl ---------- */
+.lm-seg {
+  display: inline-flex;
+  gap: 2px;
+  padding: 2px;
+  border-radius: var(--radius-md);
+  background: var(--fill);
+}
+.lm-seg__opt {
+  font: inherit;
+  font-size: 13px;
+  line-height: 18px;
+  font-weight: 500;
+  padding: 5px var(--space-4);
+  border: 0;
+  border-radius: calc(var(--radius-md) - 2px);
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+  transition: background-color .2s ease, box-shadow .2s ease;
+}
+.lm-seg__opt:hover:not(.is-selected) { background: var(--fill-hover); }
+.lm-seg__opt.is-selected { background: var(--fill-selected); box-shadow: var(--shadow-control); }
+
+/* ---------- Badge ---------- */
+.lm-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 22px;
+  padding: 0 var(--space-2);
+  border-radius: var(--radius-pill);
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+  letter-spacing: .01em;
+  white-space: nowrap;
+}
+.lm-badge__dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+.lm-badge--neutral { background: var(--fill); color: var(--ink); }
+.lm-badge--accent { background: var(--accent-soft); color: var(--accent-text); }
+.lm-badge--success { background: var(--success-soft); color: var(--success); }
+.lm-badge--warning { background: var(--warning-soft); color: var(--warning); }
+.lm-badge--danger { background: var(--danger-soft); color: var(--danger); }
+
+/* ---------- Card ---------- */
+.lm-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: var(--space-6);
+  border-radius: var(--radius-lg);
+  background: var(--surface-raised);
+  box-shadow: var(--shadow-card);
+  min-width: 0;
+}
+.lm-card--flush { padding: 0; gap: 0; overflow: hidden; }
+.lm-card--flush > .lm-card__head { padding: var(--space-6) var(--space-6) var(--space-4); }
+.lm-card__head { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--space-4); }
+.lm-card__heading { min-width: 0; }
+.lm-card__title { margin: 0; font-size: 17px; line-height: 22px; font-weight: 600; letter-spacing: -.01em; color: var(--ink); }
+.lm-card__subtitle { margin: 2px 0 0; font-size: 13px; line-height: 18px; color: var(--ink-muted); }
+.lm-card__action { flex-shrink: 0; }
+
+/* ---------- Metric ---------- */
+.lm-metric { display: flex; flex-direction: column; gap: var(--space-1); min-width: 0; }
+.lm-metric__label { font-size: 13px; line-height: 18px; font-weight: 500; color: var(--ink-muted); }
+.lm-metric__row { display: flex; align-items: flex-end; justify-content: space-between; gap: var(--space-4); }
+.lm-metric__value {
+  font-family: var(--font-display);
+  font-size: 34px;
+  line-height: 40px;
+  font-weight: 600;
+  letter-spacing: -.022em;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+}
+.lm-metric__foot { display: flex; align-items: center; gap: var(--space-2); font-size: 13px; line-height: 18px; color: var(--ink-muted); }
+.lm-metric__delta { font-weight: 600; font-variant-numeric: tabular-nums; }
+.lm-metric__delta--positive { color: var(--success); }
+.lm-metric__delta--negative { color: var(--danger); }
+.lm-metric__delta--neutral { color: var(--ink-muted); }
+.lm-metric__spark { display: block; flex-shrink: 0; margin-bottom: 4px; overflow: visible; }
+.lm-metric__area { fill: var(--accent-soft); }
+.lm-metric__line { fill: none; stroke: var(--accent-text); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.lm-metric__dot { fill: var(--accent-text); stroke: var(--surface-raised); stroke-width: 2; }
+
+/* ---------- NavBar ---------- */
+.lm-navbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  height: 52px;
+  padding: 0 var(--space-5);
+  background: var(--glass);
+  -webkit-backdrop-filter: var(--blur-glass);
+  backdrop-filter: var(--blur-glass);
+  border-bottom: 1px solid var(--line);
+}
+.lm-navbar--static { position: relative; }
+.lm-navbar__lead { display: flex; align-items: center; gap: var(--space-3); min-width: 0; }
+.lm-navbar__title { font-size: 15px; line-height: 22px; font-weight: 600; letter-spacing: -.01em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.lm-navbar__actions { display: flex; align-items: center; gap: var(--space-2); flex-shrink: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  .lm-btn, .lm-field__input, .lm-switch__track, .lm-switch__thumb, .lm-seg__opt { transition: none; }
+  .lm-btn:active:not(:disabled) { transform: none; }
+}
