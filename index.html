@@ -18,18 +18,31 @@
 <body>
 <a class="skip-link" href="#contenido">Saltar al contenido</a>
 
-<header class="lm-navbar" data-page-chrome>
+<div class="promo" data-page-chrome>
+  <p class="promo__text">Ahorra un 65 % en cada pack adicional.</p>
+  <a class="promo__link" href="#packs">Ver packs</a>
+</div>
+
+<header class="lm-navbar site-nav" data-page-chrome data-nav>
   <div class="lm-navbar__lead">
-    <a class="brand" href="#top" aria-label="Aura, inicio">Aura</a>
+    <a class="brand" href="#top" aria-label="Aura, inicio">
+      <span class="brand__mark" aria-hidden="true">A</span>
+      <span>Aura</span>
+    </a>
   </div>
-  <nav class="lm-navbar__actions" aria-label="Principal">
-    <a class="lm-btn lm-btn--plain lm-btn--sm nav-link" href="#packs">Packs</a>
-    <a class="lm-btn lm-btn--plain lm-btn--sm nav-link" href="#preguntas">Preguntas</a>
+  <nav class="site-nav__links" aria-label="Secciones">
+    <a href="#packs" data-nav-link>Packs</a>
+    <a href="#como-funciona" data-nav-link>Cómo funciona</a>
+    <a href="#themes" data-nav-link>Themes</a>
+    <a href="#preguntas" data-nav-link>Preguntas</a>
+  </nav>
+  <div class="lm-navbar__actions">
     <button class="lm-btn lm-btn--secondary lm-btn--sm" type="button" data-cart-open aria-haspopup="dialog" aria-controls="carrito">
       <svg class="icon icon--sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
       Carrito<span class="cart-count" data-cart-count hidden></span>
     </button>
-  </nav>
+    <a class="lm-btn lm-btn--primary lm-btn--sm nav-cta" href="#packs" data-nav-cta hidden>Ver packs</a>
+  </div>
 </header>
 
 <main id="contenido" data-page-chrome>
@@ -40,7 +53,7 @@
         <p class="eyebrow">Creativos para ecommerce en Latinoamérica</p>
         <h1 class="lm-text-display hero__title">Anuncios que ya venden, listos para tu producto.</h1>
         <p class="lead">Packs de anuncios estáticos y videos basados en los creativos que mejor funcionan en ecommerce. Cada plantilla incluye un prompt para adaptarla a tu marca.</p>
-        <div class="actions">
+        <div class="actions" data-hero-actions>
           <a class="lm-btn lm-btn--primary lm-btn--lg" href="#packs">Ver los packs</a>
           <a class="lm-btn lm-btn--secondary lm-btn--lg" href="#como-funciona">Cómo funciona</a>
         </div>

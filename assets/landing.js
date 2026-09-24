@@ -292,9 +292,56 @@
     err.hidden = false;
   }
 
+  // ================= Barra superior =================
+  function initNav() {
+    var nav = $('[data-nav]');
+    var promo = $('.promo');
+    if (!nav) return;
+
+    // Transparente arriba; vidrio cuando ya flota sobre el contenido.
+    var ticking = false;
+    var paintScroll = function () {
+      ticking = false;
+      nav.classList.toggle('is-scrolled', window.scrollY > (promo ? promo.offsetHeight : 0));
+    };
+    window.addEventListener('scroll', function () {
+      if (!ticking) { ticking = true; requestAnimationFrame(paintScroll); }
+    }, { passive: true });
+    paintScroll();
+
+    if (!('IntersectionObserver' in window)) return;
+
+    // El botón principal de la barra solo aparece cuando el de la portada ya no se ve.
+    var cta = $('[data-nav-cta]');
+    var heroActions = $('[data-hero-actions]');
+    if (cta && heroActions) {
+      new IntersectionObserver(function (entries) {
+        cta.hidden = entries[0].isIntersecting;
+      }).observe(heroActions);
+    }
+
+    // Resalta la sección visible.
+    var links = $$('[data-nav-link]');
+    var setActive = function (id) {
+      links.forEach(function (a) {
+        var on = a.getAttribute('href') === '#' + id;
+        a.classList.toggle('is-active', on);
+        if (on) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current');
+      });
+    };
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { if (e.isIntersecting) setActive(e.target.id); });
+    }, { rootMargin: '-45% 0px -50% 0px' });
+    ['top'].concat(links.map(function (a) { return a.getAttribute('href').slice(1); })).forEach(function (id) {
+      var section = document.getElementById(id);
+      if (section) observer.observe(section);
+    });
+  }
+
   // ================= Arranque =================
   function init() {
     Cart.load();
+    initNav();
     localizeMoney();
     paintNiches();
     paintCart();
