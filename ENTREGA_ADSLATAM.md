@@ -10,6 +10,13 @@
 - La base de datos de pedidos está preparada y `DATABASE_URL` ya está configurada en Vercel.
 - `LEMONSQUEEZY_TEST_MODE` está en `false` para producción.
 
+## Estructura del sitio
+
+- `index.html`: la landing. Estilos en `assets/landing.css` y carrito en `assets/landing.js`.
+- `compra-completada.html`: página de confirmación y acceso a las carpetas.
+- `lumen/`: sistema de diseño Lumen (tokens, componentes y guía en `lumen/README.md`).
+- Los precios de vitrina de `assets/landing.js` deben coincidir con `api/_catalog.js`, que es el que cobra.
+
 ## Pendiente antes de vender
 
 1. Esperar la aprobación de la cuenta de Lemon Squeezy.

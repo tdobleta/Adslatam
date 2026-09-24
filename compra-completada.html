@@ -3,63 +3,74 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Compra completada · Ads LatAm</title>
-<link rel="stylesheet" href="_ds/saas-moderna-design-system-2df059f4-3e82-45cc-97e3-1560f37c3895/tokens/fonts.css">
-<link rel="stylesheet" href="_ds/saas-moderna-design-system-2df059f4-3e82-45cc-97e3-1560f37c3895/tokens/colors.css">
-<link rel="stylesheet" href="_ds/saas-moderna-design-system-2df059f4-3e82-45cc-97e3-1560f37c3895/tokens/typography.css">
-<link rel="stylesheet" href="_ds/saas-moderna-design-system-2df059f4-3e82-45cc-97e3-1560f37c3895/tokens/spacing.css">
-<link rel="stylesheet" href="_ds/saas-moderna-design-system-2df059f4-3e82-45cc-97e3-1560f37c3895/tokens/radius.css">
-<link rel="stylesheet" href="_ds/saas-moderna-design-system-2df059f4-3e82-45cc-97e3-1560f37c3895/tokens/elevation.css">
-<link rel="stylesheet" href="_ds/saas-moderna-design-system-2df059f4-3e82-45cc-97e3-1560f37c3895/tokens/motion.css">
-<link rel="stylesheet" href="_ds/saas-moderna-design-system-2df059f4-3e82-45cc-97e3-1560f37c3895/tokens/base.css">
-<link rel="stylesheet" href="_ds/saas-moderna-design-system-2df059f4-3e82-45cc-97e3-1560f37c3895/styles.css">
+<meta name="robots" content="noindex">
+<meta name="color-scheme" content="light dark">
+<title>Compra completada · Aura</title>
+<link rel="stylesheet" href="lumen/tokens.css">
+<link rel="stylesheet" href="lumen/components/bundle.css">
 <style>
-  body { margin: 0; background: #F2F0ED; }
-  a { color: var(--accent); }
-  a:hover { color: var(--blue-600); }
+  [hidden] { display: none !important; }
+  .page { min-height: 100vh; display: flex; flex-direction: column; }
+  .brand { font-family: var(--font-display); font-size: 19px; line-height: 24px; font-weight: 600; letter-spacing: -.01em; color: var(--ink); text-decoration: none; }
+  .brand:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; border-radius: var(--radius-sm); }
+  main { flex: 1; display: flex; align-items: flex-start; justify-content: center; padding: var(--space-16) var(--space-8); }
+  .panel { width: 100%; max-width: 640px; }
+  .state { gap: var(--space-2); }
+  .state h1 { margin: 0; color: var(--ink); }
+  .muted { margin: 0; color: var(--ink-muted); }
+  .rows { list-style: none; margin: var(--space-4) 0 0; padding: 0; }
+  .row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-3) var(--space-4); padding: var(--space-4) 0; border-top: 1px solid var(--line); }
+  .row__title { font-weight: 600; color: var(--ink); }
+  .row__meta { display: block; font-size: 13px; line-height: 18px; color: var(--ink-muted); }
+  a.lm-btn { text-decoration: none; }
+  .note { margin: var(--space-2) 0 0; font-size: 13px; line-height: 18px; color: var(--ink-muted); }
+  .actions { display: flex; gap: var(--space-2); margin-top: var(--space-4); }
+  .spinner { width: 20px; height: 20px; border-radius: 50%; border: 2px solid var(--fill); border-top-color: var(--accent); animation: spin 1s linear infinite; }
   @keyframes spin { to { transform: rotate(360deg); } }
+  @media (prefers-reduced-motion: reduce) { .spinner { animation-duration: 3s; } }
+  @media (max-width: 640px) { main { padding: var(--space-12) var(--space-4); } }
 </style>
 </head>
 <body>
-  <main style="min-height:100vh; display:flex; align-items:center; justify-content:center; padding:48px 24px">
-    <div style="position:relative; overflow:hidden; width:100%; max-width:720px; padding:56px 44px 48px; border-radius:32px; background:radial-gradient(120% 80% at 50% -10%, #1A1A1F 0%, #0B0B0E 58%, #08080A 100%); box-shadow:0 40px 120px rgba(0,0,0,.28), inset 0 0 0 1px rgba(255,255,255,.07)">
-      <div aria-hidden="true" style="position:absolute; left:0; right:0; top:0; height:260px; background:radial-gradient(60% 100% at 50% 0%, rgba(255,246,228,.14) 0%, rgba(255,246,228,0) 100%)"></div>
+<div class="page">
+  <header class="lm-navbar">
+    <div class="lm-navbar__lead"><a class="brand" href="/" aria-label="Aura, volver a la tienda">Aura</a></div>
+  </header>
 
-      <div style="position:relative">
-        <a href="/" style="display:flex; align-items:baseline; gap:2px; font-size:17px; letter-spacing:-0.03em; color:#FFFFFF; text-decoration:none; margin-bottom:36px">
-          <span style="font-weight:900; color:#4FB8FF">Ads</span><span style="font-weight:400">LatAm</span>
-        </a>
+  <main>
+    <div class="panel" aria-live="polite">
+      <section class="lm-card state" data-state="loading">
+        <span class="spinner" role="img" aria-label="Cargando"></span>
+        <h1 class="lm-text-title-2">Confirmando tu pago…</h1>
+        <p class="muted">Puede tardar unos segundos. No cierres esta página.</p>
+      </section>
 
-        <div data-state="loading" style="display:flex; flex-direction:column; gap:14px">
-          <span style="display:inline-flex; width:22px; height:22px; border-radius:999px; border:2px solid rgba(255,255,255,.18); border-top-color:#FFFFFF; animation:spin 700ms linear infinite"></span>
-          <h1 style="margin:0; font:var(--type-h3); color:#FFFFFF; letter-spacing:var(--tracking-heading)">Estamos confirmando tu pago…</h1>
-          <p style="margin:0; max-width:440px; font:var(--type-sm); color:rgba(255,255,255,.62)">Puede tardar unos segundos. No cierres esta página.</p>
+      <section class="lm-card state" data-state="paid" hidden>
+        <span class="lm-badge lm-badge--success" style="align-self:flex-start"><span class="lm-badge__dot" aria-hidden="true"></span>Pago confirmado</span>
+        <h1 class="lm-text-title-2">Tus packs están listos</h1>
+        <p class="muted">Abre cada carpeta para descargar tus creativos.</p>
+        <ul class="rows" data-items></ul>
+        <p class="note">Guarda este enlace: puedes volver a abrirlo cuando quieras para acceder a tus carpetas.</p>
+      </section>
+
+      <section class="lm-card state" data-state="failed" hidden>
+        <span class="lm-badge lm-badge--warning" style="align-self:flex-start">Sin confirmar</span>
+        <h1 class="lm-text-title-2">No pudimos confirmar esta compra</h1>
+        <p class="muted" data-failed-msg>Si ya pagaste, escríbenos y lo resolvemos en el día.</p>
+        <div class="actions">
+          <a class="lm-btn lm-btn--secondary lm-btn--md" href="/">Volver a la tienda</a>
         </div>
-
-        <div data-state="paid" style="display:none; flex-direction:column; gap:14px">
-          <span style="display:inline-flex; align-items:center; justify-content:center; width:34px; height:34px; border-radius:999px; background:rgba(0,224,122,.16); box-shadow:inset 0 0 0 1px rgba(0,224,122,.42); color:#7BFFC0; font-size:17px">✓</span>
-          <h1 style="margin:0; font:var(--type-h2); color:#FFFFFF; letter-spacing:var(--tracking-heading)">Compra completada</h1>
-          <p style="margin:0 0 10px; font:var(--type-sm); color:rgba(255,255,255,.66)">Tus productos están listos.</p>
-          <div data-items="1" style="display:flex; flex-direction:column; gap:12px"></div>
-          <p style="margin:18px 0 0; font:var(--type-xs); color:rgba(255,255,255,.42)">Guardá este enlace: podés volver a abrirlo para acceder a tus carpetas.</p>
-        </div>
-
-        <div data-state="failed" style="display:none; flex-direction:column; gap:14px">
-          <h1 style="margin:0; font:var(--type-h3); color:#FFFFFF; letter-spacing:var(--tracking-heading)">No pudimos confirmar esta compra</h1>
-          <p data-failed-msg="1" style="margin:0; max-width:460px; font:var(--type-sm); color:rgba(255,255,255,.62)">Si ya pagaste, escribinos y lo resolvemos en el día.</p>
-          <a href="/" style="align-self:flex-start; margin-top:8px; padding:11px 20px; border-radius:999px; background:rgba(255,255,255,.10); box-shadow:inset 0 0 0 1px rgba(255,255,255,.16); color:#FFFFFF; font:var(--type-sm); font-weight:600; text-decoration:none">Volver a la tienda</a>
-        </div>
-      </div>
+      </section>
     </div>
   </main>
+</div>
 
 <script>
 (function () {
   var token = new URLSearchParams(location.search).get('order') || '';
   var show = function (name) {
     ['loading', 'paid', 'failed'].forEach(function (s) {
-      var el = document.querySelector('[data-state="' + s + '"]');
-      el.style.display = s === name ? 'flex' : 'none';
+      document.querySelector('[data-state="' + s + '"]').hidden = s !== name;
     });
   };
   var fail = function (msg) {
@@ -67,7 +78,7 @@
     show('failed');
   };
   if (!/^[A-Za-z0-9_-]{20,64}$/.test(token)) {
-    return fail('El enlace de la orden no es válido.');
+    return fail('El enlace de la orden no es válido. Revisa que esté completo.');
   }
 
   var tries = 0;
@@ -79,42 +90,50 @@
         var j = res.j || {};
         if (j.status === 'paid') { try { localStorage.removeItem('adslatam.cart.v1'); } catch (e) {} return render(j); }
         if (j.status === 'pending' && tries < 20) return setTimeout(poll, 3000);
-        if (j.status === 'pending') return fail('Seguimos esperando la confirmación del pago. Si ya pagaste, recargá esta página en unos minutos.');
+        if (j.status === 'pending') return fail('Seguimos esperando la confirmación del pago. Si ya pagaste, recarga esta página en unos minutos.');
         if (j.status === 'refunded') return fail('Esta orden fue reembolsada.');
-        if (j.status === 'not_found') return fail('No encontramos esta orden.');
+        if (j.status === 'not_found') return fail('No encontramos esta orden. Revisa que el enlace esté completo.');
         return fail();
       })
       .catch(function () {
         if (tries < 20) return setTimeout(poll, 3000);
-        fail('No pudimos contactar al servidor.');
+        fail('No pudimos contactar con el servidor. Recarga la página en unos minutos.');
       });
   };
 
   function render(data) {
-    var wrap = document.querySelector('[data-items]');
-    wrap.textContent = '';
+    var list = document.querySelector('[data-items]');
+    list.textContent = '';
     (data.items || []).forEach(function (it) {
-      var row = document.createElement('div');
-      row.setAttribute('style', 'display:flex; align-items:center; justify-content:space-between; gap:18px; flex-wrap:wrap; padding:18px 20px; border-radius:16px; background:rgba(255,255,255,.06); box-shadow:inset 0 0 0 1px rgba(255,255,255,.10)');
+      var row = document.createElement('li');
+      row.className = 'row';
+      var info = document.createElement('div');
       var name = document.createElement('span');
-      name.setAttribute('style', 'font:var(--type-sm); font-weight:600; color:#FFFFFF; letter-spacing:-0.01em');
-      name.textContent = it.variant ? it.product_name + ' · ' + it.variant : it.product_name;
-      row.appendChild(name);
+      name.className = 'row__title';
+      name.textContent = it.product_name;
+      info.appendChild(name);
+      if (it.variant) {
+        var meta = document.createElement('span');
+        meta.className = 'row__meta';
+        meta.textContent = it.variant;
+        info.appendChild(meta);
+      }
+      row.appendChild(info);
       if (it.drive_url) {
         var a = document.createElement('a');
         a.href = it.drive_url;
         a.target = '_blank';
         a.rel = 'noopener';
-        a.setAttribute('style', 'padding:10px 18px; border-radius:999px; background:#FFFFFF; color:#0B0B0E; font:var(--type-sm); font-weight:700; text-decoration:none; white-space:nowrap');
+        a.className = 'lm-btn lm-btn--secondary lm-btn--sm';
         a.textContent = 'Abrir carpeta';
         row.appendChild(a);
       } else {
         var pend = document.createElement('span');
-        pend.setAttribute('style', 'font:var(--type-xs); color:rgba(255,255,255,.52)');
+        pend.className = 'lm-badge lm-badge--neutral';
         pend.textContent = 'Preparando acceso';
         row.appendChild(pend);
       }
-      wrap.appendChild(row);
+      list.appendChild(row);
     });
     show('paid');
   }

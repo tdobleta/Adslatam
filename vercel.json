@@ -5,10 +5,6 @@
       "destination": "/api/orders/access?token=:token"
     },
     {
-      "source": "/",
-      "destination": "/Landing%20Ads%20LatAm.dc.html"
-    },
-    {
       "source": "/compra-completada",
       "destination": "/compra-completada.html"
     }
