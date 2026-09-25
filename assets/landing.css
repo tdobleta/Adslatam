@@ -287,6 +287,7 @@ s { color: var(--ink-muted); }
 }
 .form-error { margin: 0; font-size: 13px; line-height: 18px; color: var(--danger); }
 .sheet__note { margin: 0; font-size: 12px; line-height: 16px; font-weight: 500; letter-spacing: .01em; color: var(--ink-muted); text-align: center; }
+.sheet__note--start { text-align: left; }
 
 /* ---------- Responsive ---------- */
 @media (max-width: 960px) {

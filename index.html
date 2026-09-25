@@ -57,7 +57,7 @@
           <a class="lm-btn lm-btn--primary lm-btn--lg" href="#packs">Ver los packs</a>
           <a class="lm-btn lm-btn--secondary lm-btn--lg" href="#como-funciona">Cómo funciona</a>
         </div>
-        <p class="note">Desde <span data-money="6.99">US$ 6.99</span> · Pago seguro con Lemon Squeezy · Descarga inmediata</p>
+        <p class="note">Desde <span data-money="6.99">US$ 6.99</span> · Pago seguro con Mercado Pago · Descarga inmediata</p>
       </div>
       <div class="hero__gallery" role="group" aria-label="Ejemplos de anuncios de los packs">
         <figure class="sample"><img src="assets/web/muestra-moda.jpg" width="600" height="1067" alt="Anuncio de moda: jeans sobre una silla con el precio y cuotas sin interés"></figure>
@@ -279,7 +279,7 @@
         </details>
         <details>
           <summary>¿Cuándo recibo el acceso?</summary>
-          <p>Al instante. Cuando se confirma el pago, la página de confirmación te muestra el enlace a tus carpetas. Guárdala para volver cuando quieras.</p>
+          <p>Con tarjeta o dinero en cuenta, al instante: la página de confirmación te muestra el enlace a tus carpetas. Si eliges un medio en efectivo, el acceso se habilita cuando Mercado Pago acredita el pago. Guarda esa página para volver cuando quieras.</p>
         </details>
         <details>
           <summary>¿Puedo editar los creativos?</summary>
@@ -295,7 +295,7 @@
         </details>
         <details>
           <summary>¿Cómo pago?</summary>
-          <p>El pago se procesa de forma segura con Lemon Squeezy, en dólares estadounidenses.</p>
+          <p>Con Mercado Pago: tarjeta de crédito o débito, dinero en cuenta y los demás medios que tengas disponibles. Si pagas con una tarjeta de otro país, la aprobación depende de tu banco.</p>
         </details>
       </div>
     </div>
@@ -338,15 +338,21 @@
       <ul class="rows rows--sheet" data-cart-offers></ul>
     </section>
   </div>
-  <div class="sheet__foot">
+  <form class="sheet__foot" data-checkout-form novalidate>
     <div class="total">
       <span class="lm-text-headline">Total</span>
       <span class="total__value" data-cart-total>US$ 0.00</span>
     </div>
+    <p class="sheet__note sheet__note--start" data-cart-charge hidden></p>
+    <div class="lm-field" data-email-field>
+      <label class="lm-field__label" for="checkout-email">Email</label>
+      <input class="lm-field__input" id="checkout-email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="nombre@correo.com" aria-describedby="checkout-email-desc">
+      <p class="lm-field__desc" id="checkout-email-desc" data-email-desc>Lo usamos para identificar tu compra si necesitas ayuda.</p>
+    </div>
     <p class="form-error" role="alert" data-cart-error hidden></p>
-    <button class="lm-btn lm-btn--primary lm-btn--lg block" type="button" data-cart-checkout disabled>Finalizar compra</button>
-    <p class="sheet__note">Pago seguro con Lemon Squeezy · Descarga inmediata</p>
-  </div>
+    <button class="lm-btn lm-btn--primary lm-btn--lg block" type="submit" data-cart-checkout disabled>Pagar con Mercado Pago</button>
+    <p class="sheet__note">Pago seguro con Mercado Pago · Descarga inmediata</p>
+  </form>
 </aside>
 </body>
 </html>
