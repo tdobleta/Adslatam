@@ -2,9 +2,9 @@
 
 ## Estado actual
 
-- Marca: Sora. Dominio: https://sorathemes.com (hoy también responde en https://adslatam.vercel.app).
+- Marca: Sora. Dominio: https://www.sorathemes.com (hoy también responde en https://adslatam.vercel.app).
 - Titular: Virginia Barbeito, persona humana, Argentina. Contacto: soporte@sorathemes.com.
-- Página de confirmación: https://sorathemes.com/compra-completada
+- Página de confirmación: https://www.sorathemes.com/compra-completada
 - Páginas legales: /terminos, /privacidad, /reembolsos y /arrepentimiento.
 - Repositorio público: https://github.com/tdobleta/Adslatam
 - Los packs estáticos disponibles son de 25 unidades por US$ 6.99 y 50 unidades por US$ 9.99.
@@ -21,19 +21,19 @@
 - `api/checkout.js`: crea el pedido y la preferencia de Mercado Pago.
 - `api/webhooks/mercadopago.js`: único punto que marca un pedido como pagado. Consulta el pago a Mercado Pago, verifica importe, moneda y referencia, y tolera notificaciones repetidas.
 
-## Conectar el dominio sorathemes.com
+## Dominio sorathemes.com
 
-1. En Vercel, abrir el proyecto `adslatam` > Settings > Domains y agregar `sorathemes.com` y `www.sorathemes.com`.
-2. Vercel muestra los registros DNS que necesita (normalmente un registro `A` para `@` y un `CNAME` para `www`). Cargarlos en el panel del dominio (Hostinger > Dominios > sorathemes.com > DNS). Si los nameservers están en `dns-parking.com`, se editan desde la zona DNS de Hostinger.
-3. En Vercel, dejar `sorathemes.com` como dominio principal y que `www` y `adslatam.vercel.app` redirijan a él.
-4. Cambiar la variable `PUBLIC_BASE_URL` a `https://sorathemes.com` y volver a desplegar.
-5. Crear el correo `soporte@sorathemes.com` (por ejemplo, con el correo de Hostinger o un reenvío a Gmail). Es el contacto que figura en toda la web y en las páginas legales.
+- Hecho: en Vercel están `sorathemes.com` y `www.sorathemes.com`, y `sorathemes.com` redirige a `www.sorathemes.com`.
+- Hecho: DNS en Hostinger con `A @ → 216.198.79.1` y `CNAME www → 9643a98f0d4da193.vercel-dns-017.com`.
+- Pendiente: cambiar la variable `PUBLIC_BASE_URL` a `https://www.sorathemes.com` y volver a desplegar.
+- Importante: toda URL que se cargue en proveedores externos (webhook de Mercado Pago, dLocal) debe usar `www`. Una URL sin `www` recibe una redirección, y los webhooks no siguen redirecciones.
+- Pendiente: el correo `soporte@sorathemes.com`, que figura en toda la web y en las páginas legales. Si se usa un reenvío gratuito con registros MX, no deben quedar otros registros MX en la zona DNS.
 
 ## Pendiente antes de vender
 
 1. En [Tus integraciones](https://www.mercadopago.com.ar/developers/panel/app), crear una aplicación de tipo Checkout Pro.
 2. Copiar el Access Token **de prueba** (empieza con `TEST-`) y cargarlo en Vercel como `MP_ACCESS_TOKEN`. Nunca ponerlo en el código.
-3. En la aplicación, sección Webhooks, configurar la URL `https://sorathemes.com/api/webhooks/mercadopago`, marcar el evento **Pagos** y guardar la clave secreta en Vercel como `MP_WEBHOOK_SECRET`.
+3. En la aplicación, sección Webhooks, configurar la URL `https://www.sorathemes.com/api/webhooks/mercadopago`, marcar el evento **Pagos** y guardar la clave secreta en Vercel como `MP_WEBHOOK_SECRET`.
 4. Elegir la moneda: `MP_CURRENCY=USD` (precios del catálogo) o `MP_CURRENCY=ARS` con `MP_ARS_PER_USD` (pesos por dólar, por ejemplo `1400`). Si Mercado Pago rechaza USD en la cuenta, usar ARS.
 5. Crear las carpetas finales de Google Drive y cargar sus enlaces como JSON en `DRIVE_FOLDERS`. Cada clave debe coincidir con un `product_id` del catálogo, por ejemplo `static_fashion_50` o `dropship_100`.
 6. Volver a desplegar y probar con las [tarjetas de prueba](https://www.mercadopago.com.ar/developers/es/docs/checkout-pro/integration-test): pago aprobado, rechazado, pendiente y cancelado, y cerrar la ventana antes de volver a la tienda. En todos los casos, la descarga solo debe aparecer con el pago aprobado.
