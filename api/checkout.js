@@ -1,77 +1,96 @@
 const { priceCart } = require('./_catalog');
-const { createPendingOrder } = require('./_db');
+const { createPendingOrder, setPreference } = require('./_db');
+const mp = require('./_mercadopago');
+
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+// GET: moneda de cobro, para que la tienda muestre el importe final antes de pagar.
+function config(res) {
+  try {
+    const currency = mp.chargeCurrency();
+    return res.status(200).json({ currency, ars_per_usd: currency === 'ARS' ? mp.arsPerUsd() : null });
+  } catch (e) {
+    return res.status(200).json({ currency: 'USD', ars_per_usd: null });
+  }
+}
 
 module.exports = async function handler(req, res) {
+  if (req.method === 'GET') return config(res);
   if (req.method !== 'POST') return res.status(405).json({ error: 'method_not_allowed' });
 
-  const API_KEY = process.env.LEMONSQUEEZY_API_KEY;
-  const STORE_ID = process.env.LEMONSQUEEZY_STORE_ID;
-  const VARIANT_ID = process.env.LEMONSQUEEZY_VARIANT_ID;
-  if (!API_KEY || !STORE_ID || !VARIANT_ID) {
-    return res.status(503).json({ error: 'config_missing',
-      message: 'Faltan LEMONSQUEEZY_API_KEY, LEMONSQUEEZY_STORE_ID o LEMONSQUEEZY_VARIANT_ID.' });
+  if (!process.env.MP_ACCESS_TOKEN) {
+    return res.status(503).json({ error: 'config_missing', message: 'Falta MP_ACCESS_TOKEN.' });
   }
 
   let body = req.body;
   if (typeof body === 'string') { try { body = JSON.parse(body); } catch (e) { body = null; } }
+
+  const email = String((body && body.email) || '').trim().toLowerCase();
+  if (email.length > 254 || !EMAIL_RE.test(email)) {
+    return res.status(400).json({ error: 'invalid_email', message: 'Escribe un email válido, por ejemplo nombre@correo.com.' });
+  }
+
+  // Los precios salen SIEMPRE del catálogo del servidor; lo que mande el navegador se ignora.
   const priced = priceCart(body && body.items);
   if (!priced.items.length) return res.status(400).json({ error: 'empty_cart' });
 
+  let currency;
+  try { currency = mp.chargeCurrency(); }
+  catch (e) { return res.status(503).json({ error: 'config_missing', message: e.message }); }
+
+  const items = priced.items.map(i => ({
+    id: i.product_id,
+    title: i.product_name + (i.variant ? ' · ' + i.variant : ''),
+    description: i.upsell ? 'Pack adicional con ' + i.discount_percent + ' % de descuento' : 'Pack digital',
+    category_id: 'digital_goods',
+    quantity: 1,
+    currency_id: currency,
+    unit_price: mp.toChargeAmount(i.price, currency)
+  }));
+  const amount = Math.round(items.reduce((s, i) => s + i.unit_price, 0) * 100) / 100;
+
   let order;
   try {
-    order = await createPendingOrder(priced);
+    order = await createPendingOrder(priced, { provider: 'mercadopago', email, amount, currency });
   } catch (e) {
     const code = e.code === 'CONFIG' ? 503 : 500;
     return res.status(code).json({ error: e.code === 'CONFIG' ? 'config_missing' : 'db_error', message: e.message });
   }
 
   const origin = process.env.PUBLIC_BASE_URL || ('https://' + (req.headers['x-forwarded-host'] || req.headers.host));
-  const payload = {
-    data: {
-      type: 'checkouts',
-      attributes: {
-        // custom_price está en centavos: un solo variant base sirve para todo el catálogo
-        custom_price: Math.round(priced.total * 100),
-        // Test mode: se controla con LEMONSQUEEZY_TEST_MODE ('true' lo activa).
-        test_mode: String(process.env.LEMONSQUEEZY_TEST_MODE || '').toLowerCase() === 'true',
-        product_options: {
-          name: priced.items.length === 1 ? priced.items[0].product_name : 'Pack de ' + priced.items.length + ' productos',
-          description: priced.items.map(i => i.product_name + ' · ' + i.variant).join(' / '),
-          redirect_url: origin + '/compra-completada?order=' + order.public_token,
-          // sólo la variante base puede usarse en este checkout
-          enabled_variants: [Number(VARIANT_ID)]
-        },
-        checkout_data: {
-          custom: { order_token: order.public_token }
-        }
-      },
-      relationships: {
-        store:   { data: { type: 'stores',   id: String(STORE_ID) } },
-        variant: { data: { type: 'variants', id: String(VARIANT_ID) } }
-      }
-    }
+  const back = result => origin + '/compra-completada?order=' + order.public_token + '&resultado=' + result;
+
+  const preference = {
+    items,
+    payer: { email },
+    external_reference: mp.toReference(order.id),
+    back_urls: { success: back('aprobado'), pending: back('pendiente'), failure: back('rechazado') },
+    auto_return: 'approved',
+    statement_descriptor: 'SORA',
+    metadata: { order_id: String(order.id) }
   };
+  // Mercado Pago solo acepta notification_url pública con HTTPS.
+  if (/^https:\/\//.test(origin)) {
+    preference.notification_url = origin + '/api/webhooks/mercadopago?source_news=webhooks';
+  }
 
   try {
-    const r = await fetch('https://api.lemonsqueezy.com/v1/checkouts', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/vnd.api+json',
-        'Content-Type': 'application/vnd.api+json',
-        'Authorization': 'Bearer ' + API_KEY
-      },
-      body: JSON.stringify(payload)
+    const pref = await mp.createPreference(preference, 'order-' + order.public_token);
+    await setPreference(order.id, pref.id);
+    const url = mp.isTestMode() ? (pref.sandbox_init_point || pref.init_point) : pref.init_point;
+    if (!url) return res.status(502).json({ error: 'provider_error', message: 'Mercado Pago no devolvió la URL de pago.' });
+    return res.status(200).json({
+      checkout_url: url,
+      preference_id: pref.id,
+      order_token: order.public_token,
+      total: amount,
+      currency
     });
-    const json = await r.json();
-    if (!r.ok) {
-      console.error('lemonsqueezy checkout error', JSON.stringify(json));
-      return res.status(502).json({ error: 'provider_error', message: 'Lemon Squeezy rechazó el checkout.' });
-    }
-    const url = json && json.data && json.data.attributes && json.data.attributes.url;
-    if (!url) return res.status(502).json({ error: 'provider_error', message: 'Respuesta sin URL de checkout.' });
-    return res.status(200).json({ checkout_url: url, order_token: order.public_token, total: priced.total });
   } catch (e) {
-    console.error(e);
-    return res.status(502).json({ error: 'provider_unreachable', message: e.message });
+    console.error('mercadopago preference error', e.message, JSON.stringify(e.details || {}));
+    return res.status(502).json({
+      error: 'provider_error',
+      message: 'No pudimos abrir Mercado Pago. Inténtalo de nuevo en unos segundos.'
+    });
   }
 };

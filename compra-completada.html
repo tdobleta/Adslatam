@@ -5,13 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
 <meta name="color-scheme" content="light dark">
-<title>Compra completada · Aura</title>
+<title>Compra completada · Sora</title>
 <link rel="stylesheet" href="lumen/tokens.css">
 <link rel="stylesheet" href="lumen/components/bundle.css">
 <style>
   [hidden] { display: none !important; }
   .page { min-height: 100vh; display: flex; flex-direction: column; }
-  .brand { font-family: var(--font-display); font-size: 19px; line-height: 24px; font-weight: 600; letter-spacing: -.01em; color: var(--ink); text-decoration: none; }
+  .brand__mark { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: var(--radius-sm); background: var(--accent); color: var(--on-accent); font-size: 13px; line-height: 1; font-weight: 700; }
+  .brand { display: inline-flex; align-items: center; gap: var(--space-2); font-family: var(--font-display); font-size: 19px; line-height: 24px; font-weight: 600; letter-spacing: -.01em; color: var(--ink); text-decoration: none; }
   .brand:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; border-radius: var(--radius-sm); }
   main { flex: 1; display: flex; align-items: flex-start; justify-content: center; padding: var(--space-16) var(--space-8); }
   .panel { width: 100%; max-width: 640px; }
@@ -34,7 +35,7 @@
 <body>
 <div class="page">
   <header class="lm-navbar">
-    <div class="lm-navbar__lead"><a class="brand" href="/" aria-label="Aura, volver a la tienda">Aura</a></div>
+    <div class="lm-navbar__lead"><a class="brand" href="/" aria-label="Sora, volver a la tienda"><span class="brand__mark" aria-hidden="true">S</span><span>Sora</span></a></div>
   </header>
 
   <main>
@@ -53,12 +54,19 @@
         <p class="note">Guarda este enlace: puedes volver a abrirlo cuando quieras para acceder a tus carpetas.</p>
       </section>
 
+      <section class="lm-card state" data-state="pending" hidden>
+        <span class="lm-badge lm-badge--warning" style="align-self:flex-start"><span class="lm-badge__dot" aria-hidden="true"></span>Pago pendiente</span>
+        <h1 class="lm-text-title-2">Tu pago está en proceso</h1>
+        <p class="muted">Cuando Mercado Pago lo acredite, esta página te mostrará tus carpetas. Si elegiste un medio en efectivo, puede tardar hasta que pagues.</p>
+        <p class="note">Guarda este enlace para volver cuando quieras. La página se actualiza sola.</p>
+      </section>
+
       <section class="lm-card state" data-state="failed" hidden>
-        <span class="lm-badge lm-badge--warning" style="align-self:flex-start">Sin confirmar</span>
-        <h1 class="lm-text-title-2">No pudimos confirmar esta compra</h1>
-        <p class="muted" data-failed-msg>Si ya pagaste, escríbenos y lo resolvemos en el día.</p>
+        <span class="lm-badge lm-badge--warning" style="align-self:flex-start" data-failed-badge>Sin confirmar</span>
+        <h1 class="lm-text-title-2" data-failed-title>No pudimos confirmar esta compra</h1>
+        <p class="muted" data-failed-msg>Si ya pagaste, escríbenos a soporte@sorathemes.com y lo resolvemos.</p>
         <div class="actions">
-          <a class="lm-btn lm-btn--secondary lm-btn--md" href="/">Volver a la tienda</a>
+          <a class="lm-btn lm-btn--secondary lm-btn--md" href="/" data-failed-action>Volver a la tienda</a>
         </div>
       </section>
     </div>
@@ -69,7 +77,7 @@
 (function () {
   var token = new URLSearchParams(location.search).get('order') || '';
   var show = function (name) {
-    ['loading', 'paid', 'failed'].forEach(function (s) {
+    ['loading', 'paid', 'pending', 'failed'].forEach(function (s) {
       document.querySelector('[data-state="' + s + '"]').hidden = s !== name;
     });
   };
@@ -81,6 +89,19 @@
     return fail('El enlace de la orden no es válido. Revisa que esté completo.');
   }
 
+  // Lo que dice la URL de retorno de Mercado Pago solo cambia el mensaje:
+  // los accesos se liberan únicamente cuando el servidor confirma el pago por webhook.
+  var resultado = new URLSearchParams(location.search).get('resultado') || '';
+  var rejected = function () {
+    document.querySelector('[data-failed-badge]').className = 'lm-badge lm-badge--danger';
+    document.querySelector('[data-failed-badge]').textContent = 'Pago rechazado';
+    document.querySelector('[data-failed-title]').textContent = 'Mercado Pago no aprobó el pago';
+    var action = document.querySelector('[data-failed-action]');
+    action.className = 'lm-btn lm-btn--primary lm-btn--md';
+    action.textContent = 'Volver a intentarlo';
+    fail('Tu carrito sigue guardado. Vuelve a la tienda para pagar con otra tarjeta u otro medio.');
+  };
+
   var tries = 0;
   var poll = function () {
     tries++;
@@ -89,9 +110,15 @@
       .then(function (res) {
         var j = res.j || {};
         if (j.status === 'paid') { try { localStorage.removeItem('adslatam.cart.v1'); } catch (e) {} return render(j); }
-        if (j.status === 'pending' && tries < 20) return setTimeout(poll, 3000);
-        if (j.status === 'pending') return fail('Seguimos esperando la confirmación del pago. Si ya pagaste, recarga esta página en unos minutos.');
-        if (j.status === 'refunded') return fail('Esta orden fue reembolsada.');
+        if (j.status === 'failed') return rejected();
+        if (j.status === 'pending') {
+          if (resultado === 'rechazado') return rejected();
+          // Aprobado recién: el webhook puede tardar unos segundos. Pendiente: se espera más.
+          if (resultado === 'pendiente' || tries >= 20) show('pending');
+          if (tries < 200) return setTimeout(poll, tries < 20 ? 3000 : 15000);
+          return show('pending');
+        }
+        if (j.status === 'refunded') return fail('Esta orden fue reembolsada y sus accesos ya no están disponibles.');
         if (j.status === 'not_found') return fail('No encontramos esta orden. Revisa que el enlace esté completo.');
         return fail();
       })

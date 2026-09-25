@@ -247,6 +247,7 @@
 
     $('[data-cart-total]').textContent = money(Cart.total());
     $('[data-cart-checkout]').disabled = items.length === 0;
+    paintCharge();
   }
 
   function addAndOpen(id) {
@@ -255,34 +256,85 @@
     openCart();
   }
 
-  // ================= Checkout =================
+  // ================= Checkout (Mercado Pago) =================
+  var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+  var EMAIL_KEY = 'sora.checkout.email';
+  var EMAIL_HINT = 'Lo usamos para identificar tu compra si necesitas ayuda.';
+  var charge = { currency: 'USD', rate: null }; // moneda en la que cobra Mercado Pago
+
+  function setEmailError(msg) {
+    var field = $('[data-email-field]');
+    var input = $('#checkout-email');
+    field.classList.toggle('lm-field--error', !!msg);
+    if (msg) input.setAttribute('aria-invalid', 'true'); else input.removeAttribute('aria-invalid');
+    $('[data-email-desc]').textContent = msg || EMAIL_HINT;
+  }
+
+  // Si el servidor cobra en pesos, se muestra el importe aproximado antes de pagar.
+  function loadChargeConfig() {
+    fetch('/api/checkout', { cache: 'no-store' })
+      .then(function (r) { return r.ok ? r.json() : {}; })
+      .then(function (j) {
+        if (j && j.currency === 'ARS' && j.ars_per_usd > 0) {
+          charge = { currency: 'ARS', rate: Number(j.ars_per_usd) };
+          paintCart();
+        }
+      })
+      .catch(function () {});
+  }
+
+  function paintCharge() {
+    var note = $('[data-cart-charge]');
+    if (charge.currency !== 'ARS' || !Cart.items.length) { note.hidden = true; return; }
+    var ars = Cart.items.reduce(function (s, i) { return s + Math.round(i.price * charge.rate); }, 0);
+    var fmt;
+    try { fmt = new Intl.NumberFormat(navigator.language || 'es-AR', { style: 'currency', currency: 'ARS', maximumFractionDigits: 0 }); }
+    catch (e) { fmt = { format: function (n) { return 'ARS ' + n; } }; }
+    note.textContent = 'Mercado Pago te cobra ' + fmt.format(ars) + ' en pesos argentinos.';
+    note.hidden = false;
+  }
+
   function checkout(btn) {
     if (!Cart.items.length) return;
+    hideError();
+    var input = $('#checkout-email');
+    var email = input.value.trim();
+    if (!EMAIL_RE.test(email)) {
+      setEmailError(email ? 'Revisa el email: falta algo, por ejemplo nombre@correo.com.' : 'Escribe tu email para continuar.');
+      input.focus();
+      return;
+    }
+    setEmailError(null);
+    try { localStorage.setItem(EMAIL_KEY, email); } catch (e) {}
+
     var label = btn.textContent;
     btn.disabled = true;
-    btn.textContent = 'Redirigiendo al pago…';
-    hideError();
+    btn.textContent = 'Abriendo Mercado Pago…';
+
+    var restore = function () { btn.disabled = false; btn.textContent = label; };
 
     fetch('/api/checkout', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ items: Cart.items.map(function (i) { return { product_id: i.product_id, upsell: i.upsell === true }; }) })
+      body: JSON.stringify({
+        email: email,
+        items: Cart.items.map(function (i) { return { product_id: i.product_id, upsell: i.upsell === true }; })
+      })
     })
       .then(function (r) {
         return r.json().catch(function () { return {}; }).then(function (j) { return { ok: r.ok, j: j }; });
       })
       .then(function (res) {
         if (res.ok && res.j.checkout_url) { location.href = res.j.checkout_url; return; }
+        restore();
+        if (res.j.error === 'invalid_email') { setEmailError(res.j.message); input.focus(); return; }
         showError(res.j.error === 'config_missing'
           ? 'Los pagos todavía no están activos. Vuelve a intentarlo más tarde.'
-          : (res.j.message || 'No pudimos abrir el pago. Inténtalo de nuevo en unos segundos.'));
-        btn.disabled = false;
-        btn.textContent = label;
+          : (res.j.message || 'No pudimos abrir Mercado Pago. Inténtalo de nuevo en unos segundos.'));
       })
       .catch(function () {
+        restore();
         showError('No hay conexión con el servidor. Revisa tu conexión e inténtalo de nuevo.');
-        btn.disabled = false;
-        btn.textContent = label;
       });
   }
 
@@ -373,7 +425,17 @@
       if (e.key === 'Escape') closeCart();
     });
 
-    $('[data-cart-checkout]').addEventListener('click', function (e) { checkout(e.currentTarget); });
+    $('[data-checkout-form]').addEventListener('submit', function (e) {
+      e.preventDefault();
+      checkout($('[data-cart-checkout]'));
+    });
+    $('#checkout-email').addEventListener('blur', function (e) {
+      var v = e.target.value.trim();
+      if (v && !EMAIL_RE.test(v)) setEmailError('Revisa el email: falta algo, por ejemplo nombre@correo.com.');
+      else setEmailError(null);
+    });
+    try { $('#checkout-email').value = localStorage.getItem(EMAIL_KEY) || ''; } catch (e) {}
+    loadChargeConfig();
 
     // Si el carrito cambia en otra pestaña, se refleja aquí.
     window.addEventListener('storage', function (e) {

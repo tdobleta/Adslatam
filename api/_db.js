@@ -50,6 +50,10 @@ async function ensureSchema() {
   await sql`ALTER TABLE webhook_events ADD COLUMN IF NOT EXISTS state TEXT NOT NULL DEFAULT 'received'`;
   await sql`ALTER TABLE webhook_events ADD COLUMN IF NOT EXISTS attempts INT NOT NULL DEFAULT 1`;
   await sql`ALTER TABLE webhook_events ADD COLUMN IF NOT EXISTS processed_at TIMESTAMPTZ`;
+  // Mercado Pago: preferencia creada y el importe exacto que se cobra (puede ser en ARS).
+  await sql`ALTER TABLE orders ADD COLUMN IF NOT EXISTS preference_id TEXT`;
+  await sql`ALTER TABLE orders ADD COLUMN IF NOT EXISTS charge_amount NUMERIC(12,2)`;
+  await sql`ALTER TABLE orders ADD COLUMN IF NOT EXISTS charge_currency TEXT`;
   ready = true;
 }
 
@@ -57,12 +61,16 @@ function newToken() {
   return crypto.randomBytes(24).toString('base64url'); // 192 bits: no se adivina
 }
 
-async function createPendingOrder(priced) {
+// charge = { provider, amount, currency, email }: lo que realmente se le cobra al comprador.
+async function createPendingOrder(priced, charge) {
   await ensureSchema();
   const sql = sqlClient();
   const token = newToken();
-  const rows = await sql`INSERT INTO orders (public_token, total, currency)
-    VALUES (${token}, ${priced.total}, ${priced.currency}) RETURNING id, public_token`;
+  const c = charge || {};
+  const rows = await sql`INSERT INTO orders (public_token, total, currency, payment_provider, email, charge_amount, charge_currency)
+    VALUES (${token}, ${priced.total}, ${priced.currency}, ${c.provider || 'mercadopago'}, ${c.email || null},
+            ${c.amount ?? priced.total}, ${c.currency || priced.currency})
+    RETURNING id, public_token`;
   const order = rows[0];
   for (const it of priced.items) {
     await sql`INSERT INTO order_items (order_id, product_id, product_name, variant, price)
@@ -132,6 +140,19 @@ async function setStatus(publicToken, status) {
   return rows.length > 0;
 }
 
+async function setPreference(orderId, preferenceId) {
+  const sql = sqlClient();
+  await sql`UPDATE orders SET preference_id = ${preferenceId} WHERE id = ${orderId}`;
+}
+
+async function getOrderById(id) {
+  await ensureSchema();
+  const sql = sqlClient();
+  const rows = await sql`SELECT id, public_token, status, total, currency, charge_amount, charge_currency, email
+    FROM orders WHERE id = ${id}`;
+  return rows[0] || null;
+}
+
 async function getOrderByToken(token) {
   await ensureSchema();
   const sql = sqlClient();
@@ -142,4 +163,7 @@ async function getOrderByToken(token) {
   return order;
 }
 
-module.exports = { createPendingOrder, claimEvent, completeEvent, failEvent, markPaid, setStatus, getOrderByToken };
+module.exports = {
+  createPendingOrder, setPreference, claimEvent, completeEvent, failEvent,
+  markPaid, setStatus, getOrderById, getOrderByToken
+};
