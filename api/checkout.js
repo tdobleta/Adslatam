@@ -66,7 +66,7 @@ module.exports = async function handler(req, res) {
     external_reference: mp.toReference(order.id),
     back_urls: { success: back('aprobado'), pending: back('pendiente'), failure: back('rechazado') },
     auto_return: 'approved',
-    statement_descriptor: 'AURA',
+    statement_descriptor: 'SORA',
     metadata: { order_id: String(order.id) }
   };
   // Mercado Pago solo acepta notification_url pública con HTTPS.

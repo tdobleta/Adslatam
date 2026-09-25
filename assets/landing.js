@@ -258,7 +258,7 @@
 
   // ================= Checkout (Mercado Pago) =================
   var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-  var EMAIL_KEY = 'aura.checkout.email';
+  var EMAIL_KEY = 'sora.checkout.email';
   var EMAIL_HINT = 'Lo usamos para identificar tu compra si necesitas ayuda.';
   var charge = { currency: 'USD', rate: null }; // moneda en la que cobra Mercado Pago
 

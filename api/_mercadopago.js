@@ -109,10 +109,10 @@ function verifySignature(headers, dataId) {
 }
 
 // external_reference <-> id interno de la orden (no es el token secreto de acceso).
-const REF_PREFIX = 'aura-';
+const REF_PREFIX = 'sora-';
 const toReference = orderId => REF_PREFIX + orderId;
 function fromReference(ref) {
-  const m = /^aura-(\d{1,18})$/.exec(String(ref || ''));
+  const m = /^sora-(\d{1,18})$/.exec(String(ref || ''));
   return m ? m[1] : null;
 }
 
