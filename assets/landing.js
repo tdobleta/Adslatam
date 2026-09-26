@@ -11,8 +11,8 @@
     static_supplements_50:     { name: '50 ads estáticos + 25 de regalo', variant: 'Suplementos y medicinales', price: 9.99 },
     static_gadgets_25:         { name: '25 ads estáticos', variant: 'Gadgets', price: 6.99 },
     static_gadgets_50:         { name: '50 ads estáticos + 25 de regalo', variant: 'Gadgets', price: 9.99 },
-    static_pets_25:            { name: '25 ads estáticos', variant: 'Pets', price: 6.99 },
-    static_pets_50:            { name: '50 ads estáticos + 25 de regalo', variant: 'Pets', price: 9.99 },
+    static_beauty_25:          { name: '25 ads estáticos', variant: 'Beauty', price: 6.99 },
+    static_beauty_50:          { name: '50 ads estáticos + 25 de regalo', variant: 'Beauty', price: 9.99 },
     static_bundle_200:         { name: '200 ads estáticos', variant: '50 de cada nicho', price: 24.99 },
     static_fashion_brands_75:  { name: '75 ads de marcas de moda', variant: 'Eme Studios · Scuffers · Nude Project', price: 17.99 },
     static_product_brands_100: { name: '100 ads de gadgets y productos', variant: 'Ganga Home · Voltra · Smud · Lili Pink', price: 14.99 },
@@ -22,7 +22,7 @@
   // Ofertas con 65 % de descuento que el carrito sugiere después del primer pack.
   var UPSELLS = [
     'static_bundle_200', 'dropship_100', 'static_fashion_brands_75', 'static_product_brands_100',
-    'static_fashion_50', 'static_supplements_50', 'static_gadgets_50', 'static_pets_50'
+    'static_fashion_50', 'static_supplements_50', 'static_gadgets_50', 'static_beauty_50'
   ];
   var UPSELL_FACTOR = 0.35;
   var KEY = 'adslatam.cart.v1'; // compra-completada.html lo vacía tras el pago

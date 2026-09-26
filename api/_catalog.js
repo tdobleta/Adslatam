@@ -6,7 +6,7 @@ const NICHES = {
   fashion:     'Moda',
   supplements: 'Suplementos y medicinales',
   gadgets:     'Gadgets',
-  pets:        'Pets'
+  beauty:      'Beauty'
 };
 
 const STATIC_TIERS = { 25: 6.99, 50: 9.99 };
