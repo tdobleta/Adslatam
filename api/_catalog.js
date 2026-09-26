@@ -10,6 +10,7 @@ const NICHES = {
 };
 
 const STATIC_TIERS = { 25: 6.99, 50: 9.99 };
+const STATIC_GIFT = { 50: 25 }; // ads de regalo incluidos en la misma carpeta de Drive
 
 const CATALOG = {};
 
@@ -17,7 +18,7 @@ const CATALOG = {};
 for (const [slug, nicho] of Object.entries(NICHES)) {
   for (const [qty, price] of Object.entries(STATIC_TIERS)) {
     CATALOG['static_' + slug + '_' + qty] = {
-      name: qty + ' Ads Estáticos',
+      name: qty + ' Ads Estáticos' + (STATIC_GIFT[qty] ? ' + ' + STATIC_GIFT[qty] + ' de regalo' : ''),
       category: 'Ads estáticos',
       variant: nicho,
       price,

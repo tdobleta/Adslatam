@@ -6,13 +6,13 @@
 
   var PRODUCTS = {
     static_fashion_25:         { name: '25 ads estáticos', variant: 'Moda', price: 6.99 },
-    static_fashion_50:         { name: '50 ads estáticos', variant: 'Moda', price: 9.99 },
+    static_fashion_50:         { name: '50 ads estáticos + 25 de regalo', variant: 'Moda', price: 9.99 },
     static_supplements_25:     { name: '25 ads estáticos', variant: 'Suplementos y medicinales', price: 6.99 },
-    static_supplements_50:     { name: '50 ads estáticos', variant: 'Suplementos y medicinales', price: 9.99 },
+    static_supplements_50:     { name: '50 ads estáticos + 25 de regalo', variant: 'Suplementos y medicinales', price: 9.99 },
     static_gadgets_25:         { name: '25 ads estáticos', variant: 'Gadgets', price: 6.99 },
-    static_gadgets_50:         { name: '50 ads estáticos', variant: 'Gadgets', price: 9.99 },
+    static_gadgets_50:         { name: '50 ads estáticos + 25 de regalo', variant: 'Gadgets', price: 9.99 },
     static_pets_25:            { name: '25 ads estáticos', variant: 'Pets', price: 6.99 },
-    static_pets_50:            { name: '50 ads estáticos', variant: 'Pets', price: 9.99 },
+    static_pets_50:            { name: '50 ads estáticos + 25 de regalo', variant: 'Pets', price: 9.99 },
     static_bundle_200:         { name: '200 ads estáticos', variant: '50 de cada nicho', price: 24.99 },
     static_fashion_brands_75:  { name: '75 ads de marcas de moda', variant: 'Eme Studios · Scuffers · Nude Project', price: 17.99 },
     static_product_brands_100: { name: '100 ads de gadgets y productos', variant: 'Ganga Home · Voltra · Smud · Lili Pink', price: 14.99 },
@@ -137,6 +137,7 @@
 
   // ================= Selector de cantidad por nicho =================
   var PRICES = { 25: 6.99, 50: 9.99 };
+  var GIFT = { 50: 25 }; // ads de regalo por tamaño (también en api/_catalog.js)
   var qty = 50;
 
   function paintNiches() {
@@ -146,8 +147,10 @@
       opt.setAttribute('aria-checked', String(on));
     });
     $$('[data-niche]').forEach(function (row) {
+      var gift = GIFT[qty] || 0;
       $('[data-niche-price]', row).textContent = money(PRICES[qty]);
-      $('[data-niche-unit]', row).textContent = money(round2(PRICES[qty] / qty)) + ' por anuncio';
+      $('[data-niche-gift]', row).hidden = !gift;
+      $('[data-niche-unit]', row).textContent = money(round2(PRICES[qty] / (qty + gift))) + ' por anuncio';
     });
   }
 
