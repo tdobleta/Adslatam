@@ -3,14 +3,14 @@
 ## Estado actual
 
 - Marca: Sora. Dominio: https://www.sorathemes.com (hoy también responde en https://adslatam.vercel.app).
-- Titular: Virginia Barbeito, persona humana, Argentina. Contacto: soporte@sorathemes.com.
+- Titular: Virginia Barbeito, persona humana, CUIT 27-18521443-0, domicilio Cerro La Colina 285, B° Dalvian, Ciudad de Mendoza, Mendoza. Es la misma titular de la cuenta de Mercado Pago. Contacto: soporte@sorathemes.com.
 - Página de confirmación: https://www.sorathemes.com/compra-completada
 - Páginas legales: /terminos, /privacidad, /reembolsos y /arrepentimiento.
 - Repositorio público: https://github.com/tdobleta/Adslatam
-- Los packs estáticos disponibles son de 25 unidades por US$ 6.99 y 50 unidades por US$ 9.99.
+- Los packs estáticos por nicho (Moda, Suplementos, Gadgets y Beauty) son de 25 unidades por US$ 6.99 y 50 unidades + 25 de regalo por US$ 9.99. La carpeta de Drive de cada pack de 50 contiene 75 ads.
 - El pack independiente de videos de dropshipping tiene 50 videos por US$ 14.99.
 - La base de datos de pedidos está preparada y `DATABASE_URL` ya está configurada en Vercel.
-- Los pagos se cobran con Mercado Pago Checkout Pro.
+- Los pagos se cobran con Mercado Pago Checkout Pro, tanto para compradores de Argentina como del exterior.
 
 ## Estructura del sitio
 
@@ -27,7 +27,7 @@
 - Hecho: DNS en Hostinger con `A @ → 216.198.79.1` y `CNAME www → 9643a98f0d4da193.vercel-dns-017.com`.
 - Pendiente: cambiar la variable `PUBLIC_BASE_URL` a `https://www.sorathemes.com` y volver a desplegar.
 - Importante: toda URL que se cargue en proveedores externos (webhook de Mercado Pago, dLocal) debe usar `www`. Una URL sin `www` recibe una redirección, y los webhooks no siguen redirecciones.
-- Pendiente: el correo `soporte@sorathemes.com`, que figura en toda la web y en las páginas legales. Si se usa un reenvío gratuito con registros MX, no deben quedar otros registros MX en la zona DNS.
+- Pendiente: crear el buzón `soporte@sorathemes.com` en Hostinger Email (el plan ya está comprado), que figura en toda la web y en las páginas legales. Como el DNS también está en Hostinger, los registros MX, SPF y DKIM se pueden cargar automáticamente desde el panel del correo. No deben quedar otros registros MX en la zona DNS.
 
 ## Pendiente antes de vender
 
@@ -35,13 +35,13 @@
 2. Copiar el Access Token **de prueba** (empieza con `TEST-`) y cargarlo en Vercel como `MP_ACCESS_TOKEN`. Nunca ponerlo en el código.
 3. En la aplicación, sección Webhooks, configurar la URL `https://www.sorathemes.com/api/webhooks/mercadopago`, marcar el evento **Pagos** y guardar la clave secreta en Vercel como `MP_WEBHOOK_SECRET`.
 4. Elegir la moneda: `MP_CURRENCY=USD` (precios del catálogo) o `MP_CURRENCY=ARS` con `MP_ARS_PER_USD` (pesos por dólar, por ejemplo `1400`). Si Mercado Pago rechaza USD en la cuenta, usar ARS.
-5. Crear las carpetas finales de Google Drive y cargar sus enlaces como JSON en `DRIVE_FOLDERS`. Cada clave debe coincidir con un `product_id` del catálogo, por ejemplo `static_fashion_50` o `dropship_100`.
+5. Hecho: `DRIVE_FOLDERS` está cargada en Vercel (Production) con las 12 carpetas. Cada clave coincide con un `product_id` del catálogo, por ejemplo `static_beauty_50` o `dropship_100`.
 6. Volver a desplegar y probar con las [tarjetas de prueba](https://www.mercadopago.com.ar/developers/es/docs/checkout-pro/integration-test): pago aprobado, rechazado, pendiente y cancelado, y cerrar la ventana antes de volver a la tienda. En todos los casos, la descarga solo debe aparecer con el pago aprobado.
 7. Cambiar `MP_ACCESS_TOKEN` por el Access Token de producción (empieza con `APP_USR-`), volver a desplegar y hacer una compra real de importe bajo.
 
-dLocal (para compradores fuera de Argentina) se integra cuando aprueben la cuenta: hace falta saber qué producto habilitan y sus credenciales.
+dLocal queda postergado: por ahora todas las ventas, nacionales e internacionales, se cobran con Mercado Pago Checkout Pro.
 
-Revisar las páginas legales con un contador o abogado. Probablemente haya que agregar el CUIT y el domicilio de la titular.
+Las páginas legales y el pie de todas las páginas ya muestran el CUIT y el domicilio de la titular. Conviene que un contador o abogado las revise igual.
 
 Mientras falten el Access Token o las carpetas de Drive, la página puede verse pero la entrega automática no está lista para clientes.
 
