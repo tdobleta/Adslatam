@@ -36,7 +36,82 @@
   } catch (e) {
     moneyFmt = { format: function (n) { return 'US$ ' + Number(n).toFixed(2); } };
   }
-  var money = function (n) { return moneyFmt.format(Number(n)); };
+  var usd = function (n) { return moneyFmt.format(Number(n)); };
+
+  // ================= Convertidor de monedas (estimado) =================
+  // Los precios del catálogo están en USD. Otras monedas se muestran como estimado con
+  // cotizaciones de /api/rates; ARS es exacto cuando Mercado Pago cobra en pesos.
+  var CURRENCIES = {
+    USD: { label: 'Dólar estadounidense (USD)', locale: 'es-US' },
+    EUR: { label: 'Euro (EUR)', locale: 'es-ES' },
+    ARS: { label: 'Peso argentino (ARS)', locale: 'es-AR' },
+    BOB: { label: 'Boliviano (BOB)', locale: 'es-BO' },
+    CLP: { label: 'Peso chileno (CLP)', locale: 'es-CL' },
+    COP: { label: 'Peso colombiano (COP)', locale: 'es-CO' },
+    CRC: { label: 'Colón costarricense (CRC)', locale: 'es-CR' },
+    DOP: { label: 'Peso dominicano (DOP)', locale: 'es-DO' },
+    GTQ: { label: 'Quetzal guatemalteco (GTQ)', locale: 'es-GT' },
+    HNL: { label: 'Lempira hondureño (HNL)', locale: 'es-HN' },
+    MXN: { label: 'Peso mexicano (MXN)', locale: 'es-MX' },
+    NIO: { label: 'Córdoba nicaragüense (NIO)', locale: 'es-NI' },
+    PEN: { label: 'Sol peruano (PEN)', locale: 'es-PE' },
+    PYG: { label: 'Guaraní paraguayo (PYG)', locale: 'es-PY' },
+    UYU: { label: 'Peso uruguayo (UYU)', locale: 'es-UY' },
+    VES: { label: 'Bolívar venezolano (VES)', locale: 'es-VE' }
+  };
+  var CURRENCY_KEY = 'sora.currency';
+  // Zona horaria del navegador -> moneda sugerida. Ecuador, El Salvador, Panamá y Puerto Rico usan USD.
+  var ZONES = {
+    'America/La_Paz': 'BOB', 'America/Santiago': 'CLP', 'America/Punta_Arenas': 'CLP', 'Pacific/Easter': 'CLP',
+    'America/Bogota': 'COP', 'America/Costa_Rica': 'CRC', 'America/Santo_Domingo': 'DOP',
+    'America/Guatemala': 'GTQ', 'America/Tegucigalpa': 'HNL', 'America/Managua': 'NIO',
+    'America/Lima': 'PEN', 'America/Asuncion': 'PYG', 'America/Montevideo': 'UYU', 'America/Caracas': 'VES',
+    'America/Mexico_City': 'MXN', 'America/Cancun': 'MXN', 'America/Merida': 'MXN', 'America/Monterrey': 'MXN',
+    'America/Matamoros': 'MXN', 'America/Chihuahua': 'MXN', 'America/Ciudad_Juarez': 'MXN', 'America/Ojinaga': 'MXN',
+    'America/Mazatlan': 'MXN', 'America/Bahia_Banderas': 'MXN', 'America/Hermosillo': 'MXN', 'America/Tijuana': 'MXN',
+    'Europe/Madrid': 'EUR', 'Atlantic/Canary': 'EUR', 'Africa/Ceuta': 'EUR', 'Europe/Lisbon': 'EUR',
+    'Europe/Paris': 'EUR', 'Europe/Berlin': 'EUR', 'Europe/Rome': 'EUR', 'Europe/Amsterdam': 'EUR',
+    'Europe/Brussels': 'EUR', 'Europe/Vienna': 'EUR', 'Europe/Dublin': 'EUR'
+  };
+  var currency = 'USD';
+  var rates = null;
+  var curFmts = {};
+
+  function suggestedCurrency() {
+    try {
+      var saved = localStorage.getItem(CURRENCY_KEY);
+      if (saved && CURRENCIES[saved]) return saved;
+    } catch (e) {}
+    var zone = '';
+    try { zone = Intl.DateTimeFormat().resolvedOptions().timeZone || ''; } catch (e) {}
+    if (zone.indexOf('America/Argentina/') === 0 || zone === 'America/Buenos_Aires') return 'ARS';
+    return ZONES[zone] || 'USD';
+  }
+
+  function formatIn(code, value) {
+    var digits = Math.abs(value) >= 100 ? 0 : 2;
+    var key = code + digits;
+    if (!curFmts[key]) {
+      var opts = { style: 'currency', currency: code, currencyDisplay: 'narrowSymbol', minimumFractionDigits: digits, maximumFractionDigits: digits };
+      try { curFmts[key] = new Intl.NumberFormat(CURRENCIES[code].locale, opts); }
+      catch (e) {
+        try { opts.currencyDisplay = 'symbol'; curFmts[key] = new Intl.NumberFormat(CURRENCIES[code].locale, opts); }
+        catch (e2) { curFmts[key] = { format: function (n) { return Number(n).toFixed(digits) + ' ' + code; } }; }
+      }
+    }
+    var out = curFmts[key].format(value);
+    // "$" solo no dice de qué país es: se agrega el código.
+    return /\$/.test(out) && out.indexOf(code) === -1 ? out + ' ' + code : out;
+  }
+
+  // ARS exacto: mismo redondeo que api/_mercadopago.js (pesos enteros por ítem).
+  var exactArs = function () { return currency === 'ARS' && charge.currency === 'ARS'; };
+
+  var money = function (n) {
+    if (currency === 'USD' || !rates || !rates[currency]) return usd(n);
+    if (exactArs()) return formatIn('ARS', Math.round(Number(n) * charge.rate));
+    return '≈ ' + formatIn(currency, Number(n) * rates[currency]);
+  };
 
   // ================= Carrito =================
   var Cart = {
@@ -130,7 +205,7 @@
   function localizeMoney() {
     $$('[data-money]').forEach(function (node) { node.textContent = money(node.getAttribute('data-money')); });
     $$('[data-money-millions]').forEach(function (node) {
-      var whole = money(node.getAttribute('data-money-millions')).replace(/[.,]00(?=\D*$)/, '');
+      var whole = usd(node.getAttribute('data-money-millions')).replace(/[.,]00(?=\D*$)/, '');
       node.textContent = whole + ' M';
     });
   }
@@ -248,7 +323,9 @@
       offerList.appendChild(row);
     });
 
-    $('[data-cart-total]').textContent = money(Cart.total());
+    $('[data-cart-total]').textContent = exactArs()
+      ? formatIn('ARS', items.reduce(function (s, i) { return s + Math.round(i.price * charge.rate); }, 0))
+      : money(Cart.total());
     $('[data-cart-checkout]').disabled = items.length === 0;
     paintCharge();
   }
@@ -280,7 +357,7 @@
       .then(function (j) {
         if (j && j.currency === 'ARS' && j.ars_per_usd > 0) {
           charge = { currency: 'ARS', rate: Number(j.ars_per_usd) };
-          paintCart();
+          repaint();
         }
       })
       .catch(function () {});
@@ -288,13 +365,58 @@
 
   function paintCharge() {
     var note = $('[data-cart-charge]');
-    if (charge.currency !== 'ARS' || !Cart.items.length) { note.hidden = true; return; }
-    var ars = Cart.items.reduce(function (s, i) { return s + Math.round(i.price * charge.rate); }, 0);
-    var fmt;
-    try { fmt = new Intl.NumberFormat(navigator.language || 'es-AR', { style: 'currency', currency: 'ARS', maximumFractionDigits: 0 }); }
-    catch (e) { fmt = { format: function (n) { return 'ARS ' + n; } }; }
-    note.textContent = 'Mercado Pago te cobra ' + fmt.format(ars) + ' en pesos argentinos.';
+    var shown = rates && rates[currency] ? currency : 'USD';
+    if (!Cart.items.length || shown === charge.currency) { note.hidden = true; return; }
+    var text;
+    if (charge.currency === 'ARS') {
+      var ars = Cart.items.reduce(function (s, i) { return s + Math.round(i.price * charge.rate); }, 0);
+      text = 'Mercado Pago te cobra ' + formatIn('ARS', ars) + ' en pesos argentinos.';
+    } else {
+      text = 'Mercado Pago te cobra ' + usd(Cart.total()) + ' en dólares.';
+    }
+    if (shown !== 'USD' || charge.currency !== 'USD') text += ' Si tu tarjeta es de otra moneda, tu banco hace la conversión.';
+    if (shown !== 'USD' && !exactArs()) text += ' El total en ' + shown + ' es un estimado.';
+    note.textContent = text;
     note.hidden = false;
+  }
+
+  // ================= Selector de moneda =================
+  function repaint() {
+    localizeMoney();
+    paintNiches();
+    paintCart();
+    var hint = $('[data-currency-hint]');
+    if (hint) hint.hidden = currency === 'USD' || exactArs();
+  }
+
+  function initCurrency() {
+    var select = $('[data-currency]');
+    if (!select) return;
+    Object.keys(CURRENCIES).forEach(function (code) {
+      var opt = el('option', null, CURRENCIES[code].label);
+      opt.value = code;
+      select.appendChild(opt);
+    });
+    select.addEventListener('change', function () {
+      currency = select.value;
+      try { localStorage.setItem(CURRENCY_KEY, currency); } catch (e) {}
+      repaint();
+    });
+    fetch('/api/rates')
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (j) {
+        if (!j || !j.rates) return;
+        rates = j.rates;
+        Object.keys(CURRENCIES).forEach(function (code) {
+          if (!rates[code]) select.querySelector('option[value="' + code + '"]').remove();
+        });
+        var pick = suggestedCurrency();
+        currency = rates[pick] ? pick : 'USD';
+        select.value = currency;
+        $('[data-currency-picker]').hidden = false;
+        repaint();
+      })
+      .catch(function () {});
   }
 
   function checkout(btn) {
@@ -439,6 +561,7 @@
     });
     try { $('#checkout-email').value = localStorage.getItem(EMAIL_KEY) || ''; } catch (e) {}
     loadChargeConfig();
+    initCurrency();
 
     // Si el carrito cambia en otra pestaña, se refleja aquí.
     window.addEventListener('storage', function (e) {

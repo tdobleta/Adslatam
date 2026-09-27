@@ -19,6 +19,7 @@
 - `lumen/`: sistema de diseño Lumen (tokens, componentes y guía en `lumen/README.md`).
 - Los precios de vitrina de `assets/landing.js` deben coincidir con `api/_catalog.js`, que es el que cobra.
 - `api/checkout.js`: crea el pedido y la preferencia de Mercado Pago.
+- `api/rates.js`: cotizaciones para el convertidor de precios de la sección de packs (USD, EUR y monedas de Latinoamérica hispanohablante). Es solo un estimado y no interviene en el cobro; si las fuentes fallan, la tienda muestra USD y oculta el selector.
 - `api/webhooks/mercadopago.js`: único punto que marca un pedido como pagado. Consulta el pago a Mercado Pago, verifica importe, moneda y referencia, y tolera notificaciones repetidas.
 
 ## Dominio sorathemes.com

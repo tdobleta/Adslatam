@@ -105,6 +105,11 @@
       <div class="section__head">
         <h2 id="packs-titulo" class="lm-text-title-1">Elige tu pack</h2>
         <p class="section__sub">Pagas una vez y descargas al instante. Cada pack que sumes después desde el carrito tiene un 65 % de descuento.</p>
+        <div class="currency" data-currency-picker hidden>
+          <label class="currency__label" for="moneda">Ver precios en</label>
+          <select class="lm-field__input currency__select" id="moneda" data-currency aria-describedby="moneda-desc"></select>
+          <p class="currency__hint" id="moneda-desc" data-currency-hint hidden>Precios estimados con la cotización del día. Mercado Pago te muestra el importe final antes de pagar.</p>
+        </div>
       </div>
 
       <div class="packs-main">
@@ -295,6 +300,14 @@
         <details>
           <summary>¿Puedo usarlos para los clientes de mi agencia?</summary>
           <p>Sí, en las cuentas que gestionas. Lo que no está permitido es revender los archivos como pack.</p>
+        </details>
+        <details>
+          <summary>¿Puedo comprar desde fuera de Argentina?</summary>
+          <p>Sí. Desde cualquier país pagas con Mercado Pago usando tarjeta de crédito o débito. El cobro se hace en la moneda de la tienda y tu banco lo convierte a tu moneda, por lo que el importe final en tu resumen puede variar un poco según la cotización y las comisiones de tu banco. Algunos bancos bloquean las compras internacionales: si tu pago es rechazado, habilita las compras en el exterior en tu tarjeta o prueba con otra.</p>
+        </details>
+        <details>
+          <summary>¿En qué moneda veo los precios?</summary>
+          <p>Los precios de la tienda están en dólares estadounidenses. En la sección de packs puedes ver un estimado en tu moneda: pesos de Argentina, Chile, Colombia, México, República Dominicana y Uruguay, bolivianos, colones, quetzales, lempiras, córdobas, soles, guaraníes, bolívares y euros. Es orientativo: el importe que se cobra es el que muestra Mercado Pago antes de pagar.</p>
         </details>
         <details>
           <summary>¿Cómo pago?</summary>
