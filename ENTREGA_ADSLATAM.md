@@ -3,7 +3,7 @@
 ## Estado actual
 
 - Marca: Sora. Dominio: https://www.sorathemes.com (hoy también responde en https://adslatam.vercel.app).
-- Titular: Virginia Barbeito, persona humana, CUIT 27-18521443-0, domicilio Cerro La Colina 285, B° Dalvian, Ciudad de Mendoza, Mendoza. Es la misma titular de la cuenta de Mercado Pago. Contacto: soporte@sorathemes.com.
+- Titular: Virginia Barbeito, persona humana, CUIT 27-18521443-0, domicilio Cerro La Colina 285, Barrio Dalvian, Mendoza Capital, Mendoza. Es la misma titular de la cuenta de Mercado Pago. Contacto: soporte@sorathemes.com.
 - Página de confirmación: https://www.sorathemes.com/compra-completada
 - Páginas legales: /terminos, /privacidad, /reembolsos y /arrepentimiento.
 - Repositorio público: https://github.com/tdobleta/Adslatam
